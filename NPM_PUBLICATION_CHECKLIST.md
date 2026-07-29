@@ -12,15 +12,17 @@ deployment files, private reports, and payment artifacts are rejected by
 
 ## Owner prerequisites
 
-1. Confirm that the `@jsjfin` npm scope is controlled by the publishing account and that the package name is available.
-2. Confirm version `0.1.0` and inspect the generated tarball.
-3. On npmjs.com, create a GitHub trusted publisher for:
-   - Owner: `JSJFIN`
-   - Repository: `agent-profit-demo`
-   - Workflow: `publish.yml`
-   - Environment: `npm`
-   - Allowed action: `npm publish`
-4. Add required reviewers to the GitHub `npm` environment.
+Completed for the initial direct publication: the `jsjfin` account controls the
+scope, publishing 2FA is enabled, and version `0.1.0` passed the package audit.
+
+For future trusted publications, on npmjs.com create a GitHub trusted publisher for:
+
+- Owner: `JSJFIN`
+- Repository: `agent-profit-demo`
+- Workflow: `publish.yml`
+- Environment: `npm`
+- Allowed action: `npm publish`
+  Then add required reviewers to the GitHub `npm` environment.
 
 ## Publication procedure
 
@@ -51,5 +53,3 @@ npm view @jsjfin/agent-profit name version dist.integrity dist.tarball
 npm install --global @jsjfin/agent-profit@0.1.0
 agentprofit --version
 ```
-
-Do not remove the safeguards merely to make a dry run pass; `npm pack` works while the package remains private.

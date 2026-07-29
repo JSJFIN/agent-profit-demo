@@ -2,9 +2,6 @@ name: Publish public client
 
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - "sdk-v*"
 
 permissions:
   contents: read

@@ -2,10 +2,14 @@
 
 ## Unreleased
 
-- Prepared the provisional `@jsjfin/agent-profit` public client package with typed exports and generated public OpenAPI types.
-- Added a strict package file allowlist, dual CLI names, declaration output, and an OIDC-ready publication workflow.
-- Kept publication deliberately blocked with `private: true` and a failing `prepublishOnly` safeguard pending owner authorization.
-- Added an npm publication checklist and verified the packed package in a clean project.
+## SDK 0.1.0 - 2026-07-29
+
+- Published the independent `@jsjfin/agent-profit` SDK and guarded `agent-profit` CLI.
+- Added read-only discovery, quote inspection, local event validation, and signed-report verification.
+- Added explicit Base mainnet and Base Sepolia USDC policies with independent EIP-712 names.
+- Disabled payment by default and required an explicit signer, payment opt-in, recipient, per-payment limit, cumulative limit, and attempt limit.
+- Excluded TypeScript implementation source, source maps, debug symbols, server code, and payment artifacts from the public tarball.
+- Added a trusted-publishing workflow with provenance and an existing-version guard.
 
 ## 1.0.1 - 2026-07-29
 
