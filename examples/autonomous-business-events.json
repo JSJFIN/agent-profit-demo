@@ -1,0 +1,272 @@
+{
+  "synthetic": true,
+  "scenario": "Autonomous Research Brief Service",
+  "events": [
+    {
+      "schemaVersion": "1",
+      "currency": "USDC",
+      "agentId": "agent_research_1",
+      "ventureId": "venture_research_briefs",
+      "externalId": "capital_001",
+      "occurredAt": "2026-07-01T12:00:00Z",
+      "kind": "capital",
+      "direction": "inflow",
+      "amount": "100.00",
+      "category": "owner_capital",
+      "source": {
+        "name": "synthetic_scenario",
+        "type": "synthetic_demo",
+        "verification": "self_reported",
+        "reference": "synthetic-capital"
+      }
+    },
+    {
+      "schemaVersion": "1",
+      "currency": "USDC",
+      "agentId": "agent_research_1",
+      "ventureId": "venture_research_briefs",
+      "externalId": "transfer_001",
+      "occurredAt": "2026-07-01T12:00:00Z",
+      "kind": "transfer",
+      "direction": "outflow",
+      "amount": "40.00",
+      "category": "internal_wallet_transfer",
+      "source": {
+        "name": "synthetic_scenario",
+        "type": "synthetic_demo",
+        "verification": "system_observed",
+        "reference": "synthetic-wallet-transfer"
+      }
+    },
+    {
+      "schemaVersion": "1",
+      "currency": "USDC",
+      "agentId": "agent_research_1",
+      "ventureId": "venture_research_briefs",
+      "externalId": "llm_001",
+      "occurredAt": "2026-07-02T12:00:00Z",
+      "kind": "expense",
+      "direction": "outflow",
+      "amount": "6.40",
+      "category": "llm_usage",
+      "experimentId": "experiment_direct_outreach",
+      "source": {
+        "name": "synthetic_scenario",
+        "type": "synthetic_demo",
+        "verification": "receipt_supplied",
+        "reference": "synthetic-llm-receipt"
+      }
+    },
+    {
+      "schemaVersion": "1",
+      "currency": "USDC",
+      "agentId": "agent_research_1",
+      "ventureId": "venture_research_briefs",
+      "externalId": "hosting_001",
+      "occurredAt": "2026-07-02T12:00:00Z",
+      "kind": "expense",
+      "direction": "outflow",
+      "amount": "4.00",
+      "category": "hosting_compute",
+      "source": {
+        "name": "synthetic_scenario",
+        "type": "synthetic_demo",
+        "verification": "receipt_verified",
+        "reference": "synthetic-hosting-receipt"
+      }
+    },
+    {
+      "schemaVersion": "1",
+      "currency": "USDC",
+      "agentId": "agent_research_1",
+      "ventureId": "venture_research_briefs",
+      "externalId": "domain_001",
+      "occurredAt": "2026-07-03T12:00:00Z",
+      "kind": "expense",
+      "direction": "outflow",
+      "amount": "12.00",
+      "category": "domain",
+      "source": {
+        "name": "synthetic_scenario",
+        "type": "synthetic_demo",
+        "verification": "receipt_supplied",
+        "reference": "synthetic-domain-receipt"
+      }
+    },
+    {
+      "schemaVersion": "1",
+      "currency": "USDC",
+      "agentId": "agent_research_1",
+      "ventureId": "venture_research_briefs",
+      "externalId": "ad_001",
+      "occurredAt": "2026-07-05T12:00:00Z",
+      "kind": "expense",
+      "direction": "outflow",
+      "amount": "18.00",
+      "category": "advertising",
+      "experimentId": "experiment_paid_advertising",
+      "source": {
+        "name": "synthetic_scenario",
+        "type": "synthetic_demo",
+        "verification": "receipt_verified",
+        "reference": "synthetic-ad-receipt"
+      }
+    },
+    {
+      "schemaVersion": "1",
+      "currency": "USDC",
+      "agentId": "agent_research_1",
+      "ventureId": "venture_research_briefs",
+      "externalId": "x402_tool_001",
+      "occurredAt": "2026-07-06T12:00:00Z",
+      "kind": "expense",
+      "direction": "outflow",
+      "amount": "1.25",
+      "category": "x402_purchase",
+      "experimentId": "experiment_direct_outreach",
+      "source": {
+        "name": "synthetic_scenario",
+        "type": "synthetic_demo",
+        "verification": "onchain_verified",
+        "reference": "synthetic-x402-receipt"
+      },
+      "transactionHash": "0x1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    {
+      "schemaVersion": "1",
+      "currency": "USDC",
+      "agentId": "agent_research_1",
+      "ventureId": "venture_research_briefs",
+      "externalId": "revenue_001",
+      "occurredAt": "2026-07-08T12:00:00Z",
+      "kind": "revenue",
+      "direction": "inflow",
+      "amount": "24.00",
+      "category": "customer_revenue",
+      "customerId": "customer_alpha",
+      "experimentId": "experiment_direct_outreach",
+      "source": {
+        "name": "synthetic_scenario",
+        "type": "synthetic_demo",
+        "verification": "receipt_verified",
+        "reference": "synthetic-invoice-alpha"
+      }
+    },
+    {
+      "schemaVersion": "1",
+      "currency": "USDC",
+      "agentId": "agent_research_1",
+      "ventureId": "venture_research_briefs",
+      "externalId": "revenue_002",
+      "occurredAt": "2026-07-10T12:00:00Z",
+      "kind": "revenue",
+      "direction": "inflow",
+      "amount": "24.00",
+      "category": "customer_revenue",
+      "customerId": "customer_beta",
+      "experimentId": "experiment_direct_outreach",
+      "source": {
+        "name": "synthetic_scenario",
+        "type": "synthetic_demo",
+        "verification": "onchain_verified",
+        "reference": "synthetic-invoice-beta"
+      }
+    },
+    {
+      "schemaVersion": "1",
+      "currency": "USDC",
+      "agentId": "agent_research_1",
+      "ventureId": "venture_research_briefs",
+      "externalId": "revenue_003",
+      "occurredAt": "2026-07-12T12:00:00Z",
+      "kind": "revenue",
+      "direction": "inflow",
+      "amount": "10.00",
+      "category": "customer_revenue",
+      "customerId": "customer_gamma",
+      "experimentId": "experiment_paid_advertising",
+      "source": {
+        "name": "synthetic_scenario",
+        "type": "synthetic_demo",
+        "verification": "self_reported",
+        "reference": "synthetic-invoice-gamma"
+      }
+    },
+    {
+      "schemaVersion": "1",
+      "currency": "USDC",
+      "agentId": "agent_research_1",
+      "ventureId": "venture_research_briefs",
+      "externalId": "refund_001",
+      "occurredAt": "2026-07-14T12:00:00Z",
+      "kind": "refund",
+      "direction": "outflow",
+      "amount": "4.00",
+      "category": "customer_refund",
+      "customerId": "customer_alpha",
+      "experimentId": "experiment_direct_outreach",
+      "relatedEventId": "revenue_001",
+      "source": {
+        "name": "synthetic_scenario",
+        "type": "synthetic_demo",
+        "verification": "receipt_verified",
+        "reference": "synthetic-refund-alpha"
+      }
+    },
+    {
+      "schemaVersion": "1",
+      "currency": "USDC",
+      "agentId": "agent_research_1",
+      "ventureId": "venture_research_briefs",
+      "externalId": "fee_001",
+      "occurredAt": "2026-07-15T12:00:00Z",
+      "kind": "fee",
+      "direction": "outflow",
+      "amount": "0.35",
+      "category": "blockchain_transaction_fee",
+      "source": {
+        "name": "synthetic_scenario",
+        "type": "synthetic_demo",
+        "verification": "onchain_verified",
+        "reference": "synthetic-chain-fee"
+      }
+    },
+    {
+      "schemaVersion": "1",
+      "currency": "USDC",
+      "agentId": "agent_research_1",
+      "ventureId": "venture_research_briefs",
+      "externalId": "ad_llm_001",
+      "occurredAt": "2026-07-16T12:00:00Z",
+      "kind": "expense",
+      "direction": "outflow",
+      "amount": "3.60",
+      "category": "llm_usage",
+      "experimentId": "experiment_paid_advertising",
+      "source": {
+        "name": "synthetic_scenario",
+        "type": "synthetic_demo",
+        "verification": "receipt_supplied",
+        "reference": "synthetic-ad-copy-llm"
+      }
+    },
+    {
+      "schemaVersion": "1",
+      "currency": "USDC",
+      "agentId": "agent_research_1",
+      "ventureId": "venture_research_briefs",
+      "externalId": "withdrawal_001",
+      "occurredAt": "2026-07-20T12:00:00Z",
+      "kind": "withdrawal",
+      "direction": "outflow",
+      "amount": "8.00",
+      "category": "owner_withdrawal",
+      "source": {
+        "name": "synthetic_scenario",
+        "type": "synthetic_demo",
+        "verification": "system_observed",
+        "reference": "synthetic-owner-withdrawal"
+      }
+    }
+  ]
+}

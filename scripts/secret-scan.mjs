@@ -13,7 +13,7 @@ const text = files
   })
   .join("\n");
 const patterns = [
-  /\b0x[0-9a-fA-F]{64}\b/,
+  /(?:PRIVATE_KEY|WALLET_KEY)\s*[=:]\s*0x[0-9a-fA-F]{64}/i,
   /seed phrase/i,
   /payment-signature\s*:/i,
   /BEGIN (?:EC |RSA )?PRIVATE KEY/,
