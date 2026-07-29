@@ -1,8 +1,8 @@
 # npm publication checklist
 
-The provisional public package is `@jsjfin/agent-profit`. Publication is blocked by
-both `private: true` and `prepublishOnly` in `package.json` until owner
-authorization.
+The public package is `@jsjfin/agent-profit`. The owner authorized publication on
+2026-07-29. Every publication runs the permanent `prepublishOnly` package-content
+audit.
 
 The package allowlist contains compiled client JavaScript, type declarations, the
 public example, README, license, and package metadata only. TypeScript source,
@@ -22,14 +22,11 @@ deployment files, private reports, and payment artifacts are rejected by
    - Allowed action: `npm publish`
 4. Add required reviewers to the GitHub `npm` environment.
 
-## Authorization commit
-
-Only after explicit owner authorization:
+## Publication procedure
 
 ```sh
 cd /path/to/agent-profit-demo
 npm view @jsjfin/agent-profit version
-# Edit package.json: remove "private": true and remove the prepublishOnly script.
 npm ci
 npm run format:check
 npm run lint
@@ -41,7 +38,7 @@ npm run package:audit
 npm pack --dry-run
 npm pack
 git add package.json package-lock.json
-git commit -m "release: authorize public client publication"
+git commit -m "release: publish public client"
 git push origin main
 ```
 

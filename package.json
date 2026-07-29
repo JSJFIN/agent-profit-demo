@@ -1,7 +1,6 @@
 {
   "name": "@jsjfin/agent-profit",
   "version": "0.1.0",
-  "private": true,
   "description": "Independent typed x402 client, payment guardrails, and signed-report verifier for Ailabra Agent Profit Ledger",
   "type": "module",
   "bin": {
@@ -40,7 +39,7 @@
     "secret-scan": "node scripts/secret-scan.mjs",
     "package:audit": "node scripts/audit-package.mjs",
     "generate:openapi-types": "node scripts/generate-openapi-types.mjs",
-    "prepublishOnly": "node scripts/deny-publish.mjs"
+    "prepublishOnly": "npm run package:audit"
   },
   "repository": {
     "type": "git",
