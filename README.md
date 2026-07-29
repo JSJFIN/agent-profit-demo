@@ -1,8 +1,13 @@
 # Ailabra Agent Profit SDK and CLI
 
+Find out whether your AI agent is actually making money. Wallet balance is not
+profit: Ailabra separates revenue, operating costs, refunds, fees, capital,
+withdrawals, and transfers, then returns deterministic profit and cash flow.
+Available through MCP, npm, OpenAPI, and x402.
+
 `@jsjfin/agent-profit` is the independent public TypeScript SDK and guarded x402
-CLI for Ailabra Agent Profit Ledger. SDK version `0.1.x` supports service major
-version `1.x`; SDK and service versions are intentionally independent.
+CLI. SDK version `0.1.x` supports service major version `1.x`; SDK and service
+versions are intentionally independent.
 
 ```bash
 npm install @jsjfin/agent-profit
@@ -35,6 +40,17 @@ const event = createEconomicEvent({
 console.log(discovery.paymentInfo, event);
 ```
 
+Named profiles prevent URL/network mismatches:
+
+```ts
+const testClient = AgentProfitClient.fromProfile("testnet");
+const mainnetClient = AgentProfitClient.fromProfile("mainnet");
+```
+
+`custom` requires both `baseUrl` and `expectedNetwork`. A named profile only
+becomes payment-capable when a recipient, limits, and signer are explicitly
+supplied.
+
 ## Explicitly payment-enabled SDK usage
 
 Payment requires a caller-owned signer, an explicit network policy, explicit
@@ -64,6 +80,25 @@ EIP-712 name and version, recipient, per-payment amount, cumulative amount, and
 attempt count. It rejects redirects and never automatically retries a failed
 payment. Hardware and external signers work only when they provide a viem-compatible
 local account interface; browser-wallet prompting is not implemented by this CLI.
+
+Public prices may be bare decimals or strings such as `0.05 USDC`. The central
+parser rejects other assets, negatives, and scientific notation before Decimal
+arithmetic or signing.
+
+## Ailabra Profit Loop
+
+Use the [Ailabra Profit Loop](PROFIT_LOOP.md) to record revenue and attributable
+costs, keep capital and transfers out of operating profit, compare experiments,
+and calculate after each meaningful batch. The synthetic three-event example is
+in [`examples/profit-loop-events.json`](examples/profit-loop-events.json).
+
+## x402 and LLM event adapters
+
+`economicEvents.fromX402Purchase`, `economicEvents.fromX402Sale`, and
+`economicEvents.fromLlmUsage` map safe caller-supplied receipts into economic
+events. A transaction hash alone remains `receipt_supplied`; callers must set
+`onchainVerified: true` only after successful trusted-RPC verification. See
+[`examples/x402-event-adapters.ts`](examples/x402-event-adapters.ts).
 
 An independent black-box proof that an autonomous agent can keep a local economic ledger, discover Ailabra's public OpenAPI contract, safely purchase a deterministic calculation over x402, verify a signed Ed25519 attestation, and create a self-contained HTML report.
 
@@ -149,19 +184,32 @@ The generated report is [artifacts/autonomous-agent-profit-report.html](artifact
 Public package commands:
 
 ```text
-agent-profit doctor
-agent-profit discover
-agent-profit quote calculate [events.json]
+agent-profit doctor --profile testnet
+agent-profit discover --profile mainnet
+agent-profit quote calculate [events.json] --profile testnet
 agent-profit calculate events.json --pay --max-payment 0.01 --max-total-spend 0.01 --max-attempts 1
 agent-profit analyze events.json --pay --max-payment 0.05 --max-total-spend 0.05 --max-attempts 1
 agent-profit attest events.json --pay --max-payment 0.25 --max-total-spend 0.25 --max-attempts 1
 agent-profit report-verify signed-report.json
+agent-profit workspace-data-quality WORKSPACE_ID --token-env WORKSPACE_READ_TOKEN
 ```
 
 `doctor`, `discover`, and `quote` never sign or pay. Paid commands abort unless
-`--pay` and all three limits are present. Private keys are loaded only from the
+an explicit profile, `--pay`, and all three limits are present. Private keys are loaded only from the
 ignored `X402_BUYER_PRIVATE_KEY` environment variable and are never persisted or
 printed.
+
+The SDK exposes all eight MCP capabilities, including
+`workspace_get_data_quality`, through the corresponding HTTP-backed client and
+CLI operation where applicable.
+
+Audience fit:
+
+- x402 sellers: measure whether a paid API earns more than its model,
+  infrastructure, and acquisition costs.
+- agent builders: give an autonomous agent a deterministic profit feedback loop.
+- agent platforms: use profit and experiment contribution as evaluation and
+  routing signals.
 
 ## Signature verification
 

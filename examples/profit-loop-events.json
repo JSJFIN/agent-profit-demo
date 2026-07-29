@@ -1,0 +1,56 @@
+[
+  {
+    "schemaVersion": "1",
+    "externalId": "profit_loop_sale_1",
+    "occurredAt": "2026-07-29T09:00:00Z",
+    "kind": "revenue",
+    "direction": "inflow",
+    "amount": "100",
+    "currency": "USDC",
+    "agentId": "agent_research",
+    "ventureId": "venture_briefs",
+    "experimentId": "experiment_direct",
+    "customerId": "customer_synthetic_1",
+    "category": "x402_customer_revenue",
+    "source": {
+      "name": "profit_loop_example",
+      "type": "synthetic",
+      "verification": "self_reported"
+    }
+  },
+  {
+    "schemaVersion": "1",
+    "externalId": "profit_loop_llm_1",
+    "occurredAt": "2026-07-29T09:05:00Z",
+    "kind": "expense",
+    "direction": "outflow",
+    "amount": "30",
+    "currency": "USDC",
+    "agentId": "agent_research",
+    "ventureId": "venture_briefs",
+    "experimentId": "experiment_direct",
+    "category": "llm_usage",
+    "source": {
+      "name": "profit_loop_example",
+      "type": "synthetic",
+      "verification": "self_reported"
+    }
+  },
+  {
+    "schemaVersion": "1",
+    "externalId": "profit_loop_capital_1",
+    "occurredAt": "2026-07-29T08:00:00Z",
+    "kind": "capital",
+    "direction": "inflow",
+    "amount": "500",
+    "currency": "USDC",
+    "agentId": "agent_research",
+    "ventureId": "venture_briefs",
+    "category": "owner_capital",
+    "source": {
+      "name": "profit_loop_example",
+      "type": "synthetic",
+      "verification": "self_reported"
+    }
+  }
+]
