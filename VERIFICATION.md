@@ -4,11 +4,11 @@ Verified on 2026-07-29 against `https://test-x402.ailabra.org` using Base Sepoli
 
 ## v1.0.1 paid operations
 
-| Operation | Price | Settlement |
-| --- | ---: | --- |
+| Operation |     Price | Settlement                                                                                                                                                                 |
+| --------- | --------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Calculate | 0.01 USDC | [`0x646da0d2d591be4b6e47b6f46c7c79e4602b4a434f1ff75f3d1c61e328c4c411`](https://sepolia.basescan.org/tx/0x646da0d2d591be4b6e47b6f46c7c79e4602b4a434f1ff75f3d1c61e328c4c411) |
-| Analyze | 0.05 USDC | [`0x0b668ff07e4d3ab2cf680f9a51a98c87d30afb1d4266c77200d4f6095b52cb67`](https://sepolia.basescan.org/tx/0x0b668ff07e4d3ab2cf680f9a51a98c87d30afb1d4266c77200d4f6095b52cb67) |
-| Attest | 0.25 USDC | [`0x869a079e1bfa4bbbdc6d8077cfea67c9396580a2e718af8c385cbe08639dc612`](https://sepolia.basescan.org/tx/0x869a079e1bfa4bbbdc6d8077cfea67c9396580a2e718af8c385cbe08639dc612) |
+| Analyze   | 0.05 USDC | [`0x0b668ff07e4d3ab2cf680f9a51a98c87d30afb1d4266c77200d4f6095b52cb67`](https://sepolia.basescan.org/tx/0x0b668ff07e4d3ab2cf680f9a51a98c87d30afb1d4266c77200d4f6095b52cb67) |
+| Attest    | 0.25 USDC | [`0x869a079e1bfa4bbbdc6d8077cfea67c9396580a2e718af8c385cbe08639dc612`](https://sepolia.basescan.org/tx/0x869a079e1bfa4bbbdc6d8077cfea67c9396580a2e718af8c385cbe08639dc612) |
 
 The preflight-authorized total was exactly 0.31 USDC. Independent Base Sepolia RPC receipts reported success in blocks 44771626 and 44771627.
 
