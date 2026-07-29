@@ -3,7 +3,8 @@ import { execFileSync } from "node:child_process";
 const output = execFileSync("npm", ["pack", "--dry-run", "--json", "--ignore-scripts"], {
   encoding: "utf8",
 });
-const [pack] = JSON.parse(output);
+const parsed = JSON.parse(output);
+const pack = Array.isArray(parsed) ? parsed[0] : parsed;
 if (!pack || !Array.isArray(pack.files)) {
   throw new Error("npm pack did not return a file manifest");
 }

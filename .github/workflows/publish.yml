@@ -18,7 +18,8 @@ jobs:
           node-version: "24"
           registry-url: https://registry.npmjs.org
           package-manager-cache: false
-      - run: npm install --global npm@latest
+      # Pin the reviewed npm major; npm@latest can introduce incompatible pack JSON.
+      - run: npm install --global npm@11.6.2
       - run: npm ci
       - run: npm run format:check && npm run lint && npm run typecheck && npm test && npm run build
       - run: npm run secret-scan && npm run package:audit
