@@ -1,6 +1,6 @@
 {
   "name": "@jsjfin/agent-profit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Typed SDK and guarded x402 CLI for Ailabra Agent Profit Ledger.",
   "type": "module",
   "bin": {
@@ -24,6 +24,7 @@
   "files": [
     "dist",
     "examples/autonomous-business-events.json",
+    "examples/profit-loop-events.json",
     "README.md",
     "LICENSE"
   ],

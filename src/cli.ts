@@ -83,6 +83,10 @@ program
       ok: true,
       profile,
       paymentAuthorized: false,
+      paymentAuthorization: "disabled",
+      maxPayment: "not configured",
+      maxTotalSpend: "not configured",
+      maxAttempts: "not configured",
       serviceUrl: config.baseUrl,
       serviceVersion: info.serviceVersion,
       network: info.network,
@@ -123,7 +127,7 @@ program
       profile,
       paymentAuthorization: "disabled",
     };
-    console.log(JSON.stringify(json ? result : concise, null, 2));
+    console.log(JSON.stringify(json ? { ...result, ...concise } : concise, null, 2));
   });
 
 const quote = program
@@ -145,7 +149,11 @@ for (const operation of ["calculate", "analyze", "attest"] as const) {
       const challenge = await client.getPaymentQuote(operation, { events });
       const result = {
         paymentAuthorized: false,
+        paymentAuthorization: "disabled",
         profile,
+        maxPayment: "not configured",
+        maxTotalSpend: "not configured",
+        maxAttempts: "not configured",
         message: "Payment will not be authorized.",
         challenge,
       };
