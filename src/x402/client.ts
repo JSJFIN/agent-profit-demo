@@ -6,12 +6,16 @@ import { Decimal } from "decimal.js";
 import type { Config } from "../config.js";
 import type { PaymentReceipt } from "../types.js";
 import { approveRequirement, assertSameOrigin, parsePaymentRequired } from "./challenge.js";
+import { PaymentBudget } from "./policy.js";
 export async function paidPost(
   config: Config,
   path: string,
   body: unknown,
+  budget = new PaymentBudget(config),
 ): Promise<{ body: any; receipt: PaymentReceipt }> {
-  if (!config.privateKey) throw new Error("X402_BUYER_PRIVATE_KEY is required for a real payment");
+  const signer =
+    config.signer ?? (config.privateKey ? privateKeyToAccount(config.privateKey) : undefined);
+  if (!signer) throw new Error("An explicit signer is required for a real payment");
   const endpoint = new URL(path, config.baseUrl).toString();
   assertSameOrigin(config.baseUrl, endpoint);
   const options = {
@@ -24,9 +28,10 @@ export async function paidPost(
   if (initial.status !== 402) throw new Error(`Expected HTTP 402, received ${initial.status}`);
   const challenge = parsePaymentRequired(initial.headers);
   const requirement = approveRequirement(challenge, config);
+  budget.authorize(requirement.amount);
   if (requirement.resource) assertSameOrigin(config.baseUrl, requirement.resource);
   const client = new x402Client();
-  registerExactEvmScheme(client, { signer: privateKeyToAccount(config.privateKey) });
+  registerExactEvmScheme(client, { signer: signer as any });
   client.registerPolicy((_v, rs) =>
     rs.filter((r) => {
       try {

@@ -1,8 +1,69 @@
-# Agent Profit Demo
+# Ailabra Agent Profit SDK and CLI
 
-> Publication status: prepared but intentionally unpublished. The provisional npm name is `@jsjfin/agent-profit`; `private: true` and an explicit lifecycle denial prevent accidental publication. See [NPM_PUBLICATION_CHECKLIST.md](NPM_PUBLICATION_CHECKLIST.md).
+`@jsjfin/agent-profit` is the independent public TypeScript SDK and guarded x402
+CLI for Ailabra Agent Profit Ledger. SDK version `0.1.x` supports service major
+version `1.x`; SDK and service versions are intentionally independent.
+
+```bash
+npm install @jsjfin/agent-profit
+```
+
+No payment is authorized unless the caller explicitly enables payment.
 
 The package exposes the independent typed `ProfitApiClient`, economic-event and result types, public OpenAPI validation, guarded x402 buyer flow, cumulative budgets, and Ed25519 report verification. It contains no seller implementation, database code, signing private keys, deployment configuration, or production credentials.
+
+## Read-only SDK usage
+
+The first call is deliberately non-paying:
+
+```ts
+import { AgentProfitClient, createEconomicEvent } from "@jsjfin/agent-profit";
+
+const client = new AgentProfitClient({ baseUrl: "https://x402.ailabra.org" });
+const discovery = await client.discover();
+const event = createEconomicEvent({
+  schemaVersion: "1",
+  externalId: "invoice_123",
+  occurredAt: "2026-07-29T12:00:00Z",
+  kind: "revenue",
+  direction: "inflow",
+  amount: "12.50",
+  currency: "USDC",
+  category: "customer_revenue",
+  source: { name: "my_agent_ledger", type: "manual", verification: "self_reported" },
+});
+console.log(discovery.paymentInfo, event);
+```
+
+## Explicitly payment-enabled SDK usage
+
+Payment requires a caller-owned signer, an explicit network policy, explicit
+limits, and `{ pay: true }`. The Base-mainnet policy keeps the display symbol
+`USDC` separate from the token's EIP-712 name `USD Coin`.
+
+```ts
+import { AgentProfitClient, paymentPolicies } from "@jsjfin/agent-profit";
+import { privateKeyToAccount } from "viem/accounts";
+
+const client = new AgentProfitClient({
+  baseUrl: "https://x402.ailabra.org",
+  signer: privateKeyToAccount(process.env.X402_BUYER_PRIVATE_KEY as `0x${string}`),
+  paymentPolicy: paymentPolicies.baseMainnetUsdc({
+    expectedPayTo: "0x2d6Cee86466807De531a9D3010f06f53b060ab84",
+    maxPayment: "0.01",
+    maxTotalSpend: "0.01",
+    maxAttempts: 1,
+  }),
+});
+
+await client.calculate({ events: [event] }, { pay: true });
+```
+
+The client validates origin, scheme, network, contract, symbol, decimals,
+EIP-712 name and version, recipient, per-payment amount, cumulative amount, and
+attempt count. It rejects redirects and never automatically retries a failed
+payment. Hardware and external signers work only when they provide a viem-compatible
+local account interface; browser-wallet prompting is not implemented by this CLI.
 
 An independent black-box proof that an autonomous agent can keep a local economic ledger, discover Ailabra's public OpenAPI contract, safely purchase a deterministic calculation over x402, verify a signed Ed25519 attestation, and create a self-contained HTML report.
 
@@ -84,6 +145,23 @@ The generated report is [artifacts/autonomous-agent-profit-report.html](artifact
 | `attest`                                      | Purchase a signed operational report                                  |
 | `report`                                      | Render existing safe artifacts without another payment                |
 | `run-demo [--json] [--dry-run] [--force-pay]` | Plan or run discovery, budgeted payments, verification, and rendering |
+
+Public package commands:
+
+```text
+agent-profit doctor
+agent-profit discover
+agent-profit quote calculate [events.json]
+agent-profit calculate events.json --pay --max-payment 0.01 --max-total-spend 0.01 --max-attempts 1
+agent-profit analyze events.json --pay --max-payment 0.05 --max-total-spend 0.05 --max-attempts 1
+agent-profit attest events.json --pay --max-payment 0.25 --max-total-spend 0.25 --max-attempts 1
+agent-profit report-verify signed-report.json
+```
+
+`doctor`, `discover`, and `quote` never sign or pay. Paid commands abort unless
+`--pay` and all three limits are present. Private keys are loaded only from the
+ignored `X402_BUYER_PRIVATE_KEY` environment variable and are never persisted or
+printed.
 
 ## Signature verification
 

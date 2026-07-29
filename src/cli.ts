@@ -4,6 +4,7 @@ import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 import { loadConfig } from "./config.js";
+import { AgentProfitClient } from "./client.js";
 import { EventStore, assertUniqueExternalIds } from "./ledger/event-store.js";
 import { ProfitApiClient, verifyReconciliation } from "./profit/api-client.js";
 import { autonomousBusinessScenario } from "./scenarios/autonomous-business.js";
@@ -14,8 +15,8 @@ import type { CalculationResult, EconomicEvent, PaymentReceipt, SignedReport } f
 
 const VERSION = "0.1.0";
 const program = new Command()
-  .name("agent-profit-demo")
-  .description("Independent Ailabra x402 profit client")
+  .name("agent-profit")
+  .description("Typed SDK and guarded x402 CLI for Ailabra Agent Profit Ledger")
   .version(VERSION);
 const writeJson = async (path: string, value: unknown) => {
   await mkdir(dirname(path), { recursive: true });
@@ -43,6 +44,88 @@ const operationPath = {
   attest: "/api/v1/x402/profit/attest",
 } as const;
 
+const safeClient = () => {
+  const config = loadConfig();
+  return { config, client: new AgentProfitClient({ baseUrl: config.baseUrl }) };
+};
+
+program
+  .command("doctor")
+  .description("Check public service contracts without authorizing payment")
+  .option("--json")
+  .action(async ({ json }) => {
+    const { config, client } = safeClient();
+    const [discovery, keys, mcpResponse] = await Promise.all([
+      client.discover(),
+      fetchSigningKeys(config.baseUrl),
+      fetch(`${config.baseUrl}/.well-known/mcp.json`, { redirect: "error" }),
+    ]);
+    if (!mcpResponse.ok) throw new Error(`MCP metadata failed: ${mcpResponse.status}`);
+    const info = discovery.paymentInfo as Record<string, unknown>;
+    const result = {
+      ok: true,
+      paymentAuthorized: false,
+      serviceUrl: config.baseUrl,
+      serviceVersion: info.serviceVersion,
+      network: info.network,
+      paymentMode: info.paymentMode,
+      asset: info.asset,
+      assetSymbol: info.assetSymbol,
+      assetDecimals: info.assetDecimals,
+      eip712Name: info.eip712Name,
+      eip712Version: info.eip712Version,
+      signingKeyCount: keys.length,
+      openapi: "ok",
+      mcp: "ok",
+    };
+    console.log(
+      json
+        ? JSON.stringify(result)
+        : Object.entries(result)
+            .map(([key, value]) => `${key}: ${value}`)
+            .join("\n"),
+    );
+  });
+
+program
+  .command("discover")
+  .description("Print public capabilities and pricing without authorizing payment")
+  .option("--json")
+  .action(async ({ json }) => {
+    const { client } = safeClient();
+    const result = await client.discover();
+    const concise = {
+      capabilities: result.capabilities,
+      pricing: result.pricing,
+      paymentInfo: result.paymentInfo,
+    };
+    console.log(JSON.stringify(json ? result : concise, null, 2));
+  });
+
+const quote = program
+  .command("quote")
+  .description("Decode an x402 quote without signing or paying");
+for (const operation of ["calculate", "analyze", "attest"] as const) {
+  quote
+    .command(`${operation} [eventsFile]`)
+    .option("--json")
+    .action(async (eventsFile: string | undefined, { json }) => {
+      const events = eventsFile
+        ? (JSON.parse(await readFile(eventsFile, "utf8")) as EconomicEvent[])
+        : autonomousBusinessScenario().slice(0, 3);
+      const { client } = safeClient();
+      const challenge = await client.getPaymentQuote(operation, { events });
+      const result = {
+        paymentAuthorized: false,
+        message: "Payment will not be authorized.",
+        challenge,
+      };
+      console.log(
+        json ? JSON.stringify(result) : `${result.message}\n${JSON.stringify(challenge, null, 2)}`,
+      );
+    });
+}
+
 program
   .command("scenario")
   .command("create")
@@ -66,9 +149,23 @@ ledger.command("validate").action(async () => {
   console.log(`${events.length} events valid; 0 duplicates`);
 });
 
-async function singlePaid(operation: "calculate" | "analyze" | "attest") {
-  const { config, store } = context();
-  const events = await store.read();
+async function singlePaid(
+  operation: "calculate" | "analyze" | "attest",
+  eventsFile: string,
+  options: { pay?: boolean; maxPayment?: string; maxTotalSpend?: string; maxAttempts?: string },
+) {
+  if (!options.pay)
+    throw new Error("Payment disabled. Re-run with --pay after reviewing the quote.");
+  if (!options.maxPayment || !options.maxTotalSpend || !options.maxAttempts)
+    throw new Error("--max-payment, --max-total-spend, and --max-attempts are required");
+  const { config } = context();
+  config.maxPayment = options.maxPayment;
+  config.maxTotalSpend = options.maxTotalSpend;
+  config.maxAttempts = Number(options.maxAttempts);
+  if (!Number.isInteger(config.maxAttempts) || config.maxAttempts < 1)
+    throw new Error("--max-attempts must be a positive integer");
+  if (!config.expectedPayTo) throw new Error("X402_EXPECTED_PAY_TO is required for payment");
+  const events = JSON.parse(await readFile(eventsFile, "utf8")) as EconomicEvent[];
   assertUniqueExternalIds(events);
   const api = new ProfitApiClient(config);
   await api.discover();
@@ -84,9 +181,28 @@ async function singlePaid(operation: "calculate" | "analyze" | "attest") {
     JSON.stringify({ operation, receipt: response.receipt, result: response.body }, null, 2),
   );
 }
-program.command("calculate").action(() => singlePaid("calculate"));
-program.command("analyze").action(() => singlePaid("analyze"));
-program.command("attest").action(() => singlePaid("attest"));
+for (const operation of ["calculate", "analyze", "attest"] as const) {
+  program
+    .command(operation)
+    .argument("<eventsFile>")
+    .option("--pay", "Explicitly authorize payment", false)
+    .requiredOption("--max-payment <USDC>")
+    .requiredOption("--max-total-spend <USDC>")
+    .requiredOption("--max-attempts <count>")
+    .action((eventsFile, options) => singlePaid(operation, eventsFile, options));
+}
+
+program
+  .command("report-verify")
+  .argument("<reportFile>")
+  .option("--json")
+  .action(async (reportFile, { json }) => {
+    const report = JSON.parse(await readFile(reportFile, "utf8")) as SignedReport;
+    const { client } = safeClient();
+    const result = await client.verifyReport(report);
+    if (!result.valid) process.exitCode = 1;
+    console.log(json ? JSON.stringify(result) : `Signature valid: ${result.valid}`);
+  });
 
 async function generateReport() {
   const { config, store } = context();

@@ -1,9 +1,10 @@
 {
   "name": "@jsjfin/agent-profit",
   "version": "0.1.0",
-  "description": "Independent typed x402 client, payment guardrails, and signed-report verifier for Ailabra Agent Profit Ledger",
+  "description": "Typed SDK and guarded x402 CLI for Ailabra Agent Profit Ledger.",
   "type": "module",
   "bin": {
+    "agent-profit": "dist/cli.js",
     "agent-profit-demo": "dist/cli.js",
     "agentprofit": "dist/cli.js"
   },
@@ -47,12 +48,17 @@
   },
   "keywords": [
     "x402",
+    "mcp",
     "ai-agents",
+    "agentic-commerce",
     "finops",
+    "profit",
+    "cash-flow",
     "profitability",
     "usdc",
     "base",
-    "ed25519"
+    "ed25519",
+    "typescript"
   ],
   "author": "JSJFIN",
   "license": "MIT",

@@ -1,5 +1,6 @@
 import { Decimal } from "decimal.js";
 import type { Config } from "../config.js";
+import type { PaymentPolicy } from "./policy.js";
 export type PaymentRequirement = {
   scheme: string;
   network: string;
@@ -33,18 +34,42 @@ export function parsePaymentRequired(headers: Headers): PaymentRequired {
     throw new Error("Malformed payment requirements");
   return value as PaymentRequired;
 }
-export function approveRequirement(challenge: PaymentRequired, config: Config): PaymentRequirement {
+type GuardrailConfig = Pick<
+  Config,
+  | "expectedNetwork"
+  | "expectedAsset"
+  | "expectedPayTo"
+  | "maxPayment"
+  | "expectedDecimals"
+  | "expectedEip712Name"
+  | "expectedEip712Version"
+>;
+
+export function approveRequirement(
+  challenge: PaymentRequired,
+  config: GuardrailConfig | PaymentPolicy,
+): PaymentRequirement {
   const r = challenge.accepts.find(
     (x) => x.scheme === "exact" && x.network === config.expectedNetwork,
   );
   if (!r) throw new Error("Unsupported payment scheme or unexpected network");
-  if (!/^0x[0-9a-fA-F]{40}$/.test(r.asset) || r.asset.toLowerCase() !== config.expectedAsset)
+  if (
+    !/^0x[0-9a-fA-F]{40}$/.test(r.asset) ||
+    r.asset.toLowerCase() !== config.expectedAsset.toLowerCase()
+  )
     throw new Error("Unexpected payment asset");
   if (!/^0x[0-9a-fA-F]{40}$/.test(r.payTo)) throw new Error("Malformed payment recipient");
-  if (config.expectedPayTo && r.payTo.toLowerCase() !== config.expectedPayTo)
+  if (config.expectedPayTo && r.payTo.toLowerCase() !== config.expectedPayTo.toLowerCase())
     throw new Error("Unexpected payment recipient");
-  if (!/^\d+$/.test(r.amount) || new Decimal(r.amount).div(1_000_000).gt(config.maxPayment))
+  if (
+    !/^\d+$/.test(r.amount) ||
+    new Decimal(r.amount).div(new Decimal(10).pow(config.expectedDecimals)).gt(config.maxPayment)
+  )
     throw new Error("Payment exceeds configured maximum");
+  if (!r.extra || r.extra.name !== config.expectedEip712Name)
+    throw new Error("Unexpected EIP-712 token name");
+  if (r.extra.version !== config.expectedEip712Version)
+    throw new Error("Unexpected EIP-712 token version");
   return r;
 }
 export function assertSameOrigin(baseUrl: string, target: string) {

@@ -15,6 +15,10 @@ const schema = z.object({
     .string()
     .regex(/^0x[0-9a-fA-F]{40}$/)
     .optional(),
+  X402_EXPECTED_SYMBOL: z.string().default("USDC"),
+  X402_EXPECTED_DECIMALS: z.coerce.number().int().min(0).max(255).default(6),
+  X402_EXPECTED_EIP712_NAME: z.string().optional(),
+  X402_EXPECTED_EIP712_VERSION: z.string().default("2"),
   X402_MAX_PAYMENT: z
     .string()
     .regex(/^\d+(\.\d+)?$/)
@@ -23,6 +27,7 @@ const schema = z.object({
     .string()
     .regex(/^\d+(\.\d+)?$/)
     .default("0.31"),
+  X402_MAX_ATTEMPTS: z.coerce.number().int().positive().default(1),
   LEDGER_PATH: z.string().default("ledger.json"),
   REPORT_OUTPUT_PATH: z.string().default("artifacts/autonomous-agent-profit-report.html"),
   LOG_LEVEL: z.string().default("info"),
@@ -37,6 +42,16 @@ export type Config = {
   maxTotalSpend: string;
   ledgerPath: string;
   reportPath: string;
+  expectedAssetSymbol: string;
+  expectedDecimals: number;
+  expectedEip712Name: string;
+  expectedEip712Version: string;
+  maxAttempts: number;
+  signer?: EvmSigner;
+};
+export type EvmSigner = {
+  address: `0x${string}`;
+  signTypedData: (parameters: unknown) => Promise<`0x${string}`>;
 };
 export type Environment = Record<string, string | undefined>;
 
@@ -52,5 +67,12 @@ export function loadConfig(env: Environment = process.env): Config {
     maxTotalSpend: v.X402_MAX_TOTAL_SPEND,
     ledgerPath: v.LEDGER_PATH,
     reportPath: v.REPORT_OUTPUT_PATH,
+    expectedAssetSymbol: v.X402_EXPECTED_SYMBOL,
+    expectedDecimals: v.X402_EXPECTED_DECIMALS,
+    expectedEip712Name:
+      v.X402_EXPECTED_EIP712_NAME ??
+      (v.X402_EXPECTED_NETWORK === "eip155:8453" ? "USD Coin" : "USDC"),
+    expectedEip712Version: v.X402_EXPECTED_EIP712_VERSION,
+    maxAttempts: v.X402_MAX_ATTEMPTS,
   };
 }

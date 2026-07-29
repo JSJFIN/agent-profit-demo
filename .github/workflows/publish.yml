@@ -2,6 +2,9 @@ name: Publish public client
 
 on:
   workflow_dispatch:
+  push:
+    tags:
+      - "sdk-v*"
 
 permissions:
   contents: read
@@ -22,4 +25,12 @@ jobs:
       - run: npm ci
       - run: npm run format:check && npm run lint && npm run typecheck && npm test && npm run build
       - run: npm run secret-scan && npm run package:audit
-      - run: npm publish --access public
+      - name: Refuse an existing package version
+        run: |
+          package_name=$(node -p "require('./package.json').name")
+          package_version=$(node -p "require('./package.json').version")
+          if npm view "$package_name@$package_version" version >/dev/null 2>&1; then
+            echo "Version already exists: $package_name@$package_version"
+            exit 1
+          fi
+      - run: npm publish --access public --provenance

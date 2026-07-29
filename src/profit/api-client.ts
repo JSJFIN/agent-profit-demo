@@ -2,17 +2,20 @@ import type { Config } from "../config.js";
 import type { EconomicEvent, PaymentReceipt, CalculationResult, SignedReport } from "../types.js";
 import { PublicContracts } from "./public-contracts.js";
 import { paidPost } from "../x402/client.js";
+import { PaymentBudget } from "../x402/policy.js";
 export class ProfitApiClient {
   readonly contracts: PublicContracts;
+  readonly budget: PaymentBudget;
   constructor(readonly config: Config) {
     this.contracts = new PublicContracts(config.baseUrl);
+    this.budget = new PaymentBudget(config);
   }
   async discover() {
     return this.contracts.discover();
   }
   async call(path: string, body: unknown): Promise<{ body: any; receipt: PaymentReceipt }> {
     this.contracts.validateRequest(path, body);
-    const result = await paidPost(this.config, path, body);
+    const result = await paidPost(this.config, path, body, this.budget);
     this.contracts.validateResponse(path, result.body);
     return result;
   }

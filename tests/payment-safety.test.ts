@@ -7,6 +7,8 @@ import {
 } from "../src/x402/challenge.js";
 import type { Config } from "../src/config.js";
 import { assertPaymentBudget, operationsToPay } from "../src/x402/budget.js";
+import { PaymentBudget, paymentPolicies } from "../src/x402/policy.js";
+import { AgentProfitClient } from "../src/client.js";
 const config: Config = {
   baseUrl: "https://test-x402.ailabra.org",
   expectedNetwork: "eip155:84532",
@@ -16,6 +18,11 @@ const config: Config = {
   maxTotalSpend: "0.31",
   ledgerPath: "ledger.json",
   reportPath: "report.html",
+  expectedAssetSymbol: "USDC",
+  expectedDecimals: 6,
+  expectedEip712Name: "USDC",
+  expectedEip712Version: "2",
+  maxAttempts: 1,
 };
 const good: PaymentRequired = {
   x402Version: 2,
@@ -26,12 +33,30 @@ const good: PaymentRequired = {
       asset: config.expectedAsset,
       amount: "10000",
       payTo: config.expectedPayTo!,
+      extra: { name: "USDC", version: "2" },
     },
   ],
 };
 describe("payment guardrails", () => {
   it("accepts an allowed requirement", () =>
     expect(approveRequirement(good, config).amount).toBe("10000"));
+  it("enforces the independently configured Base mainnet EIP-712 domain", () => {
+    const policy = paymentPolicies.baseMainnetUsdc({
+      expectedPayTo: "0x2d6Cee86466807De531a9D3010f06f53b060ab84",
+      maxPayment: "0.01",
+      maxTotalSpend: "0.01",
+    });
+    const mainnet = structuredClone(good);
+    Object.assign(mainnet.accepts[0]!, {
+      network: policy.expectedNetwork,
+      asset: policy.expectedAsset,
+      payTo: policy.expectedPayTo,
+      extra: { name: "USD Coin", version: "2" },
+    });
+    expect(approveRequirement(mainnet, policy).extra?.name).toBe("USD Coin");
+    mainnet.accepts[0]!.extra = { name: "USDC", version: "2" };
+    expect(() => approveRequirement(mainnet, policy)).toThrow(/EIP-712 token name/);
+  });
   it.each([
     ["network", "eip155:8453", "network"],
     ["asset", "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", "asset"],
@@ -56,7 +81,6 @@ describe("payment guardrails", () => {
     try {
       approveRequirement(good, {
         ...config,
-        privateKey: secret as `0x${string}`,
         expectedAsset: "bad",
       });
     } catch (e) {
@@ -101,5 +125,19 @@ describe("payment guardrails", () => {
     expect(operationsToPay(selected, reusable, true, false)).toEqual([]);
     expect(operationsToPay(selected, reusable, true, true)).toEqual(selected);
     expect(operationsToPay(selected, reusable, false, false)).toEqual(selected);
+  });
+  it("enforces total budget and attempt count before a second authorization", () => {
+    const budget = new PaymentBudget({
+      expectedDecimals: 6,
+      maxPayment: "0.01",
+      maxTotalSpend: "0.01",
+      maxAttempts: 1,
+    });
+    expect(budget.authorize("10000").toFixed()).toBe("0.01");
+    expect(() => budget.authorize("10000")).toThrow(/attempts/);
+  });
+  it("keeps SDK payments disabled by default", async () => {
+    const client = new AgentProfitClient({ baseUrl: "https://x402.ailabra.org" });
+    await expect(client.calculate({ events: [] })).rejects.toThrow(/Payment disabled/);
   });
 });
