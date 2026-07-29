@@ -32,6 +32,18 @@ export function autonomousBusinessScenario(): EconomicEvent[] {
       direction: "outflow",
       amount: "40.00",
       category: "internal_wallet_transfer",
+      relatedEventId: "transfer_002",
+      source: source("system_observed", "synthetic-wallet-transfer"),
+    },
+    {
+      ...base,
+      externalId: "transfer_002",
+      occurredAt: at(1),
+      kind: "transfer",
+      direction: "inflow",
+      amount: "40.00",
+      category: "internal_wallet_transfer",
+      relatedEventId: "transfer_001",
       source: source("system_observed", "synthetic-wallet-transfer"),
     },
     {

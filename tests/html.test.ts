@@ -3,12 +3,12 @@ import { renderHtml } from "../src/reports/html-renderer.js";
 import { autonomousBusinessScenario } from "../src/scenarios/autonomous-business.js";
 const calculation: any = {
   calculationEngineVersion: "1.0.0",
-  inputEventCount: 14,
-  acceptedEventCount: 14,
+  inputEventCount: 15,
+  acceptedEventCount: 15,
   rejectedEventCount: 0,
   duplicateEventCount: 0,
   profitAffectingEventCount: 11,
-  profitExcludedEventCount: 3,
+  profitExcludedEventCount: 4,
   totals: {
     USDC: {
       grossRevenue: "58",
@@ -73,10 +73,11 @@ describe("standalone report", () => {
     ])
       expect(html).toContain(s);
     expect(html).not.toContain("<script src=");
+    expect(html).not.toMatch(/<(?:script|img|link)[^>]+(?:src|href)=["']https?:/i);
     const json = html.match(
       /<script type="application\/json" id="profit-result">(.*?)<\/script>/s,
     )![1]!;
-    expect(JSON.parse(json).inputEventCount).toBe(14);
+    expect(JSON.parse(json).inputEventCount).toBe(15);
   });
   it("escapes untrusted event fields", () => {
     const events = autonomousBusinessScenario();

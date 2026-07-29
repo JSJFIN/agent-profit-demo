@@ -1,6 +1,4 @@
 {
-  "synthetic": true,
-  "scenario": "Autonomous Research Brief Service",
   "events": [
     {
       "schemaVersion": "1",
@@ -288,5 +286,6 @@
         "reference": "synthetic-owner-withdrawal"
       }
     }
-  ]
+  ],
+  "currentCashBalance": "100.40"
 }

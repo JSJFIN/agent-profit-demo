@@ -1,0 +1,13 @@
+{
+  "endpoint": "https://test-x402.ailabra.org/api/v1/x402/profit/calculate",
+  "price": "0.01 USDC",
+  "amount": "10000",
+  "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+  "network": "eip155:84532",
+  "scheme": "exact",
+  "payTo": "0x2d6Cee86466807De531a9D3010f06f53b060ab84",
+  "payer": "0xc88e2907a3cE3a0d7CA69dc4db078E05535C9577",
+  "transaction": "0x42bce20b0cb24265e573f86c6c9b08fd4519a0a726f87b6c26281c06b9b06120",
+  "success": true,
+  "explorerUrl": "https://sepolia.basescan.org/tx/0x42bce20b0cb24265e573f86c6c9b08fd4519a0a726f87b6c26281c06b9b06120"
+}

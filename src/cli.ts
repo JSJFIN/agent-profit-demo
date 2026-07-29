@@ -54,7 +54,7 @@ async function paid(kind: "calculate" | "analyze" | "attest") {
   const result = await api[kind](events);
   await output(`artifacts/${kind}-request.json`, {
     events,
-    currentCashBalance: "110.40",
+    currentCashBalance: "100.40",
     ...(kind === "attest" ? { public: false } : {}),
   });
   await output(`artifacts/${kind}-response.json`, result.body);
@@ -62,7 +62,7 @@ async function paid(kind: "calculate" | "analyze" | "attest") {
   if (kind === "calculate") {
     await output("artifacts/calculation-request.json", {
       events,
-      currentCashBalance: "110.40",
+      currentCashBalance: "100.40",
     });
     await output("artifacts/calculation-response.json", result.body);
     await output("artifacts/payment-receipt.json", result.receipt);
@@ -71,7 +71,10 @@ async function paid(kind: "calculate" | "analyze" | "attest") {
     await output("artifacts/signed-report.json", result.body);
     await output("artifacts/attestation-payment-receipt.json", result.receipt);
   }
-  if (kind === "analyze") await output("artifacts/analysis-response.json", result.body);
+  if (kind === "analyze") {
+    await output("artifacts/analysis-response.json", result.body);
+    await output("artifacts/analysis-payment-receipt.json", result.receipt);
+  }
   console.log(JSON.stringify({ kind, receipt: result.receipt, result: result.body }, null, 2));
 }
 program.command("calculate").action(() => paid("calculate"));
@@ -143,10 +146,13 @@ program
       );
       if (!verification.valid) throw new Error("Independent signature verification failed");
     }
-    await output("artifacts/calculation-request.json", { events, currentCashBalance: "110.40" });
+    await output("artifacts/calculation-request.json", { events, currentCashBalance: "100.40" });
     await output("artifacts/calculation-response.json", calculation.body);
     await output("artifacts/payment-receipt.json", calculation.receipt);
-    if (analysis) await output("artifacts/analysis-response.json", analysis.body);
+    if (analysis) {
+      await output("artifacts/analysis-response.json", analysis.body);
+      await output("artifacts/analysis-payment-receipt.json", analysis.receipt);
+    }
     if (attestation) {
       await output("artifacts/signed-report.json", attestation.body);
       await output("artifacts/attestation-payment-receipt.json", attestation.receipt);

@@ -14,7 +14,7 @@ const text = files
   .join("\n");
 const patterns = [
   /(?:PRIVATE_KEY|WALLET_KEY)\s*[=:]\s*0x[0-9a-fA-F]{64}/i,
-  /seed phrase/i,
+  /(?:SEED_PHRASE|MNEMONIC)\s*[=:]\s*["'][a-z]+(?:\s+[a-z]+){11,23}["']/i,
   /payment-signature\s*:/i,
   /BEGIN (?:EC |RSA )?PRIVATE KEY/,
 ];

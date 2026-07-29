@@ -9,7 +9,7 @@ describe("synthetic ledger", () => {
   it("is reproducible, diverse, decimal-safe, and unique", () => {
     const a = autonomousBusinessScenario();
     expect(a).toEqual(autonomousBusinessScenario());
-    expect(a).toHaveLength(14);
+    expect(a).toHaveLength(15);
     expect(a.every((e) => typeof e.amount === "string" && /^\d+\.\d+$/.test(e.amount))).toBe(true);
     expect(new Set(a.map((e) => e.kind)).size).toBeGreaterThanOrEqual(7);
     expect(new Set(a.map((e) => e.experimentId).filter(Boolean)).size).toBe(2);

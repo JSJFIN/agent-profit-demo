@@ -45,6 +45,12 @@ coverage/
 ledger.json
 artifacts/*
 !artifacts/.gitkeep
+!artifacts/autonomous-agent-profit-report.html
+!artifacts/report-preview.png
+!artifacts/calculation-request.json
+!artifacts/calculation-response.json
+!artifacts/payment-receipt.json
+!artifacts/analysis-response.json
 *.log
 jspm_packages/
 

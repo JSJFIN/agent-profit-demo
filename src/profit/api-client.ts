@@ -19,16 +19,16 @@ export class ProfitApiClient {
   calculate(events: EconomicEvent[]) {
     return this.call("/api/v1/x402/profit/calculate", {
       events,
-      currentCashBalance: "110.40",
+      currentCashBalance: "100.40",
     }) as Promise<{ body: CalculationResult; receipt: PaymentReceipt }>;
   }
   analyze(events: EconomicEvent[]) {
-    return this.call("/api/v1/x402/profit/analyze", { events, currentCashBalance: "110.40" });
+    return this.call("/api/v1/x402/profit/analyze", { events, currentCashBalance: "100.40" });
   }
   attest(events: EconomicEvent[]) {
     return this.call("/api/v1/x402/profit/attest", {
       events,
-      currentCashBalance: "110.40",
+      currentCashBalance: "100.40",
       public: false,
     }) as Promise<{
       body: { report: SignedReport; reportUrl: string; jsonUrl: string; evidenceManifest: unknown };
