@@ -5,6 +5,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 import { loadConfig } from "./config.js";
 import { AgentProfitClient } from "./client.js";
+import { resolveProfile, type EnvironmentProfile } from "./profiles.js";
 import { EventStore, assertUniqueExternalIds } from "./ledger/event-store.js";
 import { ProfitApiClient, verifyReconciliation } from "./profit/api-client.js";
 import { autonomousBusinessScenario } from "./scenarios/autonomous-business.js";
@@ -44,17 +45,33 @@ const operationPath = {
   attest: "/api/v1/x402/profit/attest",
 } as const;
 
-const safeClient = () => {
-  const config = loadConfig();
-  return { config, client: new AgentProfitClient({ baseUrl: config.baseUrl }) };
+const profileName = (value = "mainnet"): EnvironmentProfile => {
+  if (value !== "mainnet" && value !== "testnet" && value !== "custom")
+    throw new Error("Profile must be mainnet, testnet, or custom");
+  return value;
+};
+const safeClient = (options: { profile?: string; baseUrl?: string; expectedNetwork?: string }) => {
+  const resolved = resolveProfile(profileName(options.profile), {
+    ...(options.baseUrl ? { baseUrl: options.baseUrl } : {}),
+    ...(options.expectedNetwork ? { expectedNetwork: options.expectedNetwork } : {}),
+  });
+  return {
+    profile: resolved.profile,
+    config: loadConfig({ ...process.env, PROFIT_API_BASE_URL: resolved.baseUrl }),
+    client: new AgentProfitClient({ baseUrl: resolved.baseUrl }),
+  };
 };
 
 program
   .command("doctor")
   .description("Check public service contracts without authorizing payment")
+  .option("--profile <profile>", "mainnet, testnet, or custom", "mainnet")
+  .option("--base-url <url>", "required for custom")
+  .option("--expected-network <network>", "required for custom")
   .option("--json")
-  .action(async ({ json }) => {
-    const { config, client } = safeClient();
+  .action(async (options) => {
+    const { json } = options;
+    const { profile, config, client } = safeClient(options);
     const [discovery, keys, mcpResponse] = await Promise.all([
       client.discover(),
       fetchSigningKeys(config.baseUrl),
@@ -64,6 +81,7 @@ program
     const info = discovery.paymentInfo as Record<string, unknown>;
     const result = {
       ok: true,
+      profile,
       paymentAuthorized: false,
       serviceUrl: config.baseUrl,
       serviceVersion: info.serviceVersion,
@@ -90,14 +108,20 @@ program
 program
   .command("discover")
   .description("Print public capabilities and pricing without authorizing payment")
+  .option("--profile <profile>", "mainnet, testnet, or custom", "mainnet")
+  .option("--base-url <url>", "required for custom")
+  .option("--expected-network <network>", "required for custom")
   .option("--json")
-  .action(async ({ json }) => {
-    const { client } = safeClient();
+  .action(async (options) => {
+    const { json } = options;
+    const { profile, client } = safeClient(options);
     const result = await client.discover();
     const concise = {
       capabilities: result.capabilities,
       pricing: result.pricing,
       paymentInfo: result.paymentInfo,
+      profile,
+      paymentAuthorization: "disabled",
     };
     console.log(JSON.stringify(json ? result : concise, null, 2));
   });
@@ -108,15 +132,20 @@ const quote = program
 for (const operation of ["calculate", "analyze", "attest"] as const) {
   quote
     .command(`${operation} [eventsFile]`)
+    .option("--profile <profile>", "mainnet, testnet, or custom", "mainnet")
+    .option("--base-url <url>", "required for custom")
+    .option("--expected-network <network>", "required for custom")
     .option("--json")
-    .action(async (eventsFile: string | undefined, { json }) => {
+    .action(async (eventsFile: string | undefined, options) => {
+      const { json } = options;
       const events = eventsFile
         ? (JSON.parse(await readFile(eventsFile, "utf8")) as EconomicEvent[])
         : autonomousBusinessScenario().slice(0, 3);
-      const { client } = safeClient();
+      const { profile, client } = safeClient(options);
       const challenge = await client.getPaymentQuote(operation, { events });
       const result = {
         paymentAuthorized: false,
+        profile,
         message: "Payment will not be authorized.",
         challenge,
       };
@@ -152,19 +181,55 @@ ledger.command("validate").action(async () => {
 async function singlePaid(
   operation: "calculate" | "analyze" | "attest",
   eventsFile: string,
-  options: { pay?: boolean; maxPayment?: string; maxTotalSpend?: string; maxAttempts?: string },
+  options: {
+    pay?: boolean;
+    profile?: string;
+    baseUrl?: string;
+    expectedNetwork?: string;
+    maxPayment?: string;
+    maxTotalSpend?: string;
+    maxAttempts?: string;
+  },
 ) {
   if (!options.pay)
     throw new Error("Payment disabled. Re-run with --pay after reviewing the quote.");
   if (!options.maxPayment || !options.maxTotalSpend || !options.maxAttempts)
     throw new Error("--max-payment, --max-total-spend, and --max-attempts are required");
   const { config } = context();
+  const selectedProfile = profileName(options.profile);
+  const resolved = resolveProfile(selectedProfile, {
+    ...(options.baseUrl ? { baseUrl: options.baseUrl } : {}),
+    ...(options.expectedNetwork ? { expectedNetwork: options.expectedNetwork } : {}),
+  });
+  config.baseUrl = resolved.baseUrl;
+  config.expectedNetwork = resolved.expectedNetwork;
+  if (selectedProfile === "mainnet") {
+    config.expectedAsset = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913".toLowerCase();
+    config.expectedEip712Name = "USD Coin";
+  } else if (selectedProfile === "testnet") {
+    config.expectedAsset = "0x036CbD53842c5426634e7929541eC2318f3dCF7e".toLowerCase();
+    config.expectedEip712Name = "USDC";
+  }
   config.maxPayment = options.maxPayment;
   config.maxTotalSpend = options.maxTotalSpend;
   config.maxAttempts = Number(options.maxAttempts);
   if (!Number.isInteger(config.maxAttempts) || config.maxAttempts < 1)
     throw new Error("--max-attempts must be a positive integer");
   if (!config.expectedPayTo) throw new Error("X402_EXPECTED_PAY_TO is required for payment");
+  console.error(
+    [
+      "Payment preflight",
+      `Profile: ${selectedProfile}`,
+      `Base URL: ${config.baseUrl}`,
+      `Payment authorization: enabled by --pay`,
+      `Network: ${config.expectedNetwork}`,
+      `Token: ${config.expectedAsset}`,
+      `EIP-712: ${config.expectedEip712Name} version ${config.expectedEip712Version}`,
+      `Maximum payment: ${config.maxPayment} USDC`,
+      `Maximum total spend: ${config.maxTotalSpend} USDC`,
+      `Maximum attempts: ${config.maxAttempts}`,
+    ].join("\n"),
+  );
   const events = JSON.parse(await readFile(eventsFile, "utf8")) as EconomicEvent[];
   assertUniqueExternalIds(events);
   const api = new ProfitApiClient(config);
@@ -185,6 +250,9 @@ for (const operation of ["calculate", "analyze", "attest"] as const) {
   program
     .command(operation)
     .argument("<eventsFile>")
+    .requiredOption("--profile <profile>", "mainnet, testnet, or custom")
+    .option("--base-url <url>", "required for custom")
+    .option("--expected-network <network>", "required for custom")
     .option("--pay", "Explicitly authorize payment", false)
     .requiredOption("--max-payment <USDC>")
     .requiredOption("--max-total-spend <USDC>")
@@ -198,10 +266,26 @@ program
   .option("--json")
   .action(async (reportFile, { json }) => {
     const report = JSON.parse(await readFile(reportFile, "utf8")) as SignedReport;
-    const { client } = safeClient();
+    const { client } = safeClient({});
     const result = await client.verifyReport(report);
     if (!result.valid) process.exitCode = 1;
     console.log(json ? JSON.stringify(result) : `Signature valid: ${result.valid}`);
+  });
+
+program
+  .command("workspace-data-quality")
+  .argument("<workspaceId>")
+  .requiredOption("--token-env <name>", "environment variable containing a read capability")
+  .option("--profile <profile>", "mainnet, testnet, or custom", "mainnet")
+  .option("--base-url <url>", "required for custom")
+  .option("--expected-network <network>", "required for custom")
+  .action(async (workspaceId, options) => {
+    const token = process.env[options.tokenEnv];
+    if (!token)
+      throw new Error(`Capability token environment variable is missing: ${options.tokenEnv}`);
+    const { profile, client } = safeClient(options);
+    const result = await client.getWorkspaceDataQuality(workspaceId, token);
+    console.log(JSON.stringify({ profile, paymentAuthorized: false, result }, null, 2));
   });
 
 async function generateReport() {

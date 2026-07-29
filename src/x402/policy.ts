@@ -1,4 +1,5 @@
 import { Decimal } from "decimal.js";
+import { parseAtomicUsdc, parseUsdcPrice } from "../money.js";
 
 export type PaymentPolicy = {
   expectedNetwork: string;
@@ -74,9 +75,11 @@ export class PaymentBudget {
   authorize(amountAtomic: string) {
     if (this.attempts >= this.policy.maxAttempts)
       throw new Error("Maximum payment attempts exceeded");
-    const amount = new Decimal(amountAtomic).div(new Decimal(10).pow(this.policy.expectedDecimals));
-    if (amount.gt(this.policy.maxPayment)) throw new Error("Payment exceeds configured maximum");
-    if (this.spent.plus(amount).gt(this.policy.maxTotalSpend))
+    const amount = new Decimal(parseAtomicUsdc(amountAtomic, this.policy.expectedDecimals).amount);
+    const maximum = new Decimal(parseUsdcPrice(this.policy.maxPayment).amount);
+    const totalMaximum = new Decimal(parseUsdcPrice(this.policy.maxTotalSpend).amount);
+    if (amount.gt(maximum)) throw new Error("Payment exceeds configured maximum");
+    if (this.spent.plus(amount).gt(totalMaximum))
       throw new Error("Payment would exceed configured total spending limit");
     this.attempts += 1;
     this.spent = this.spent.plus(amount);

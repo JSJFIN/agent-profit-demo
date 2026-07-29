@@ -1,4 +1,5 @@
 import { Decimal } from "decimal.js";
+import { parseAtomicUsdc, parseUsdcPrice } from "../money.js";
 import type { Config } from "../config.js";
 import type { PaymentPolicy } from "./policy.js";
 export type PaymentRequirement = {
@@ -63,7 +64,9 @@ export function approveRequirement(
     throw new Error("Unexpected payment recipient");
   if (
     !/^\d+$/.test(r.amount) ||
-    new Decimal(r.amount).div(new Decimal(10).pow(config.expectedDecimals)).gt(config.maxPayment)
+    new Decimal(parseAtomicUsdc(r.amount, config.expectedDecimals).amount).gt(
+      parseUsdcPrice(config.maxPayment).amount,
+    )
   )
     throw new Error("Payment exceeds configured maximum");
   if (!r.extra || r.extra.name !== config.expectedEip712Name)

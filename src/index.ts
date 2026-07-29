@@ -1,5 +1,13 @@
 export { loadConfig, type Config, type EvmSigner } from "./config.js";
 export { createEconomicEvent, economicEventSchema, validateEconomicEvents } from "./events.js";
+export { economicEvents, withEconomicEventTracking, type EconomicEventLedger } from "./adapters.js";
+export { formatUsdc, parseAtomicUsdc, parseUsdcPrice, type UsdcAmount } from "./money.js";
+export {
+  resolveProfile,
+  type EnvironmentProfile,
+  type ProfileOptions,
+  type ResolvedProfile,
+} from "./profiles.js";
 export {
   AgentProfitClient,
   type AgentProfitClientOptions,

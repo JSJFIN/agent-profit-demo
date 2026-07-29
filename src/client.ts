@@ -5,6 +5,7 @@ import type { EconomicEvent, SignedReport } from "./types.js";
 import { parsePaymentRequired, approveRequirement, assertSameOrigin } from "./x402/challenge.js";
 import { paidPost } from "./x402/client.js";
 import { PaymentBudget, type PaymentPolicy } from "./x402/policy.js";
+import { resolveProfile, type EnvironmentProfile, type ProfileOptions } from "./profiles.js";
 
 export type AgentProfitClientOptions = {
   baseUrl: string;
@@ -40,6 +41,15 @@ export class AgentProfitClient {
         throw new Error("Service origin is not permitted by payment policy");
       this.budget = new PaymentBudget(options.paymentPolicy);
     }
+  }
+
+  static fromProfile(profile: EnvironmentProfile, options: ProfileOptions = {}) {
+    const resolved = resolveProfile(profile, options);
+    return new AgentProfitClient({
+      baseUrl: resolved.baseUrl,
+      ...(resolved.paymentPolicy ? { paymentPolicy: resolved.paymentPolicy } : {}),
+      ...(resolved.signer ? { signer: resolved.signer } : {}),
+    });
   }
 
   async discover() {
@@ -98,6 +108,31 @@ export class AgentProfitClient {
   async verifyReport(report: SignedReport) {
     return verifySignedReport(report, await fetchSigningKeys(this.baseUrl));
   }
+
+  async getWorkspaceDataQuality(workspaceId: string, capabilityToken: string) {
+    if (!workspaceId || !capabilityToken)
+      throw new Error("Workspace ID and read capability are required");
+    const response = await fetch(
+      new URL(`/api/v1/workspaces/${encodeURIComponent(workspaceId)}/data-quality`, this.baseUrl),
+      {
+        headers: { accept: "application/json", authorization: `Bearer ${capabilityToken}` },
+        redirect: "error",
+      },
+    );
+    if (!response.ok) throw new Error(`Workspace data quality failed: ${response.status}`);
+    return response.json();
+  }
+
+  static readonly operations = [
+    "profit_calculate",
+    "profit_analyze",
+    "profit_attest",
+    "workspace_create",
+    "workspace_record_events",
+    "workspace_get_profit",
+    "workspace_get_data_quality",
+    "report_verify",
+  ] as const;
 
   private async paidCall(
     operation: keyof typeof operationPaths,
