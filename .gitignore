@@ -39,6 +39,13 @@ build/Release
 
 # Dependency directories
 node_modules/
+.env
+dist/
+coverage/
+ledger.json
+artifacts/*
+!artifacts/.gitkeep
+*.log
 jspm_packages/
 
 # Snowpack dependency directory (https://snowpack.dev/)
