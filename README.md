@@ -1,5 +1,9 @@
 # Agent Profit Demo
 
+> Publication status: prepared but intentionally unpublished. The provisional npm name is `@jsjfin/agent-profit`; `private: true` and an explicit lifecycle denial prevent accidental publication. See [NPM_PUBLICATION_CHECKLIST.md](NPM_PUBLICATION_CHECKLIST.md).
+
+The package exposes the independent typed `ProfitApiClient`, economic-event and result types, public OpenAPI validation, guarded x402 buyer flow, cumulative budgets, and Ed25519 report verification. It contains no seller implementation, database code, signing private keys, deployment configuration, or production credentials.
+
 An independent black-box proof that an autonomous agent can keep a local economic ledger, discover Ailabra's public OpenAPI contract, safely purchase a deterministic calculation over x402, verify a signed Ed25519 attestation, and create a self-contained HTML report.
 
 > **Synthetic demonstration only.** The Autonomous Research Brief Service, its customers, revenue, and costs are fictional. Wallet balance is not profit.

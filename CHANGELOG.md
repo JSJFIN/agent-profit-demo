@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Prepared the provisional `@jsjfin/agent-profit` public client package with typed exports and generated public OpenAPI types.
+- Added a strict package file allowlist, dual CLI names, declaration output, and an OIDC-ready publication workflow.
+- Kept publication deliberately blocked with `private: true` and a failing `prepublishOnly` safeguard pending owner authorization.
+- Added an npm publication checklist and verified the packed package in a clean project.
+
 ## 1.0.1 - 2026-07-29
 
 - Consumed calculation schema 2 experiment, customer, category, and currency-scoped economics without reconstructing server formulas.

@@ -16,3 +16,4 @@ jobs:
       - run: npm run build
       - run: npm run secret-scan
       - run: npm audit --audit-level=high
+      - run: npm pack --dry-run

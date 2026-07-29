@@ -1,12 +1,33 @@
 {
-  "name": "agent-profit-demo",
-  "version": "1.0.1",
-  "description": "Independent black-box x402 client and HTML profit report for autonomous agents",
+  "name": "@jsjfin/agent-profit",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Independent typed x402 client, payment guardrails, and signed-report verifier for Ailabra Agent Profit Ledger",
   "type": "module",
   "bin": {
-    "agent-profit-demo": "dist/cli.js"
+    "agent-profit-demo": "dist/cli.js",
+    "agentprofit": "dist/cli.js"
   },
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "examples/autonomous-business-events.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit",
@@ -16,19 +37,41 @@
     "format:check": "prettier --check .",
     "start": "tsx src/cli.ts",
     "view-report": "node scripts/view-report.mjs",
-    "secret-scan": "node scripts/secret-scan.mjs"
+    "secret-scan": "node scripts/secret-scan.mjs",
+    "generate:openapi-types": "node scripts/generate-openapi-types.mjs",
+    "prepublishOnly": "node scripts/deny-publish.mjs"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JSJFIN/agent-profit-demo.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "x402",
+    "ai-agents",
+    "finops",
+    "profitability",
+    "usdc",
+    "base",
+    "ed25519"
+  ],
+  "author": "JSJFIN",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/JSJFIN/agent-profit-demo/issues"
   },
-  "homepage": "https://github.com/JSJFIN/agent-profit-demo#readme",
+  "homepage": "https://x402.ailabra.org",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "overrides": {
+    "js-yaml": "4.3.0",
+    "minimatch": "10.2.6",
+    "brace-expansion": "5.0.8"
+  },
   "dependencies": {
     "@apidevtools/swagger-parser": "^12.1.0",
     "@x402/core": "^2.20.0",
@@ -47,9 +90,10 @@
     "@types/node": "^26.1.2",
     "eslint": "^10.8.0",
     "fast-check": "^4.9.0",
+    "openapi-typescript": "^7.13.0",
     "prettier": "^3.9.6",
     "tsx": "^4.23.1",
-    "typescript": "^6.0.2",
+    "typescript": "^5.9.2",
     "typescript-eslint": "^8.65.0",
     "vitest": "^4.1.10"
   }

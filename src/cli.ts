@@ -12,7 +12,7 @@ import { renderHtml } from "./reports/html-renderer.js";
 import { assertPaymentBudget, operationsToPay, type PlannedOperation } from "./x402/budget.js";
 import type { CalculationResult, EconomicEvent, PaymentReceipt, SignedReport } from "./types.js";
 
-const VERSION = "1.0.1";
+const VERSION = "0.1.0";
 const program = new Command()
   .name("agent-profit-demo")
   .description("Independent Ailabra x402 profit client")
