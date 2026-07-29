@@ -10,7 +10,7 @@
 
 ## Payment controls
 
-The client rejects malformed challenges, unsupported versions/schemes, unexpected networks or assets, amounts over `X402_MAX_PAYMENT`, unexpected recipients when configured, resource URLs on another origin, and redirects. The SDK is allowed to select only requirements that pass the same policy.
+The client rejects malformed challenges, unsupported versions/schemes, unexpected networks or assets, amounts over `X402_MAX_PAYMENT`, complete runs over `X402_MAX_TOTAL_SPEND`, unexpected recipients when configured, resource URLs on another origin, and redirects. The full run budget is checked before the first payment. The SDK is allowed to select only requirements that pass the same policy.
 
 The configured maximum is per request. Operators must separately budget the combined cost of calculate, analyze, and attest.
 

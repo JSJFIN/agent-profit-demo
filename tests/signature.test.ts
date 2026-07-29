@@ -64,4 +64,11 @@ describe("independent signature verification", () => {
     f.report.schemaVersion = "1";
     expect(() => verifySignedReport(f.report, f.keys)).not.toThrow();
   });
+  it("recognizes current schema 3 and rejects unknown schemas", () => {
+    const f = fixture();
+    f.report.schemaVersion = "3";
+    expect(() => verifySignedReport(f.report, f.keys)).not.toThrow();
+    f.report.schemaVersion = "99";
+    expect(() => verifySignedReport(f.report, f.keys)).toThrow(/Unsupported/);
+  });
 });

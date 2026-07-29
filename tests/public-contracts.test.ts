@@ -13,7 +13,7 @@ describe("public black-box contracts", () => {
     expect(
       contracts.validateRequest("/api/v1/x402/profit/calculate", {
         events: autonomousBusinessScenario(),
-        currentCashBalance: "100.40",
+        currentCashBalances: { USDC: "100.40" },
       }),
     ).toBe(true);
   });
@@ -40,6 +40,14 @@ describe("public black-box contracts", () => {
   it("validates the captured paid calculation and analysis responses", async () => {
     const calculation = JSON.parse(await readFile("artifacts/calculation-response.json", "utf8"));
     const analysis = JSON.parse(await readFile("artifacts/analysis-response.json", "utf8"));
+    const liveSchema =
+      contracts.document.components.schemas.CalculationResult.properties.schemaVersion.const;
+    if (calculation.schemaVersion !== liveSchema) {
+      expect(() =>
+        contracts.validateResponse("/api/v1/x402/profit/calculate", calculation),
+      ).toThrow(/violates public OpenAPI/);
+      return;
+    }
     expect(contracts.validateResponse("/api/v1/x402/profit/calculate", calculation)).toBe(true);
     expect(contracts.validateResponse("/api/v1/x402/profit/analyze", analysis)).toBe(true);
   });

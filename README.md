@@ -37,6 +37,7 @@ PROFIT_API_BASE_URL=https://test-x402.ailabra.org
 X402_EXPECTED_NETWORK=eip155:84532
 X402_EXPECTED_ASSET=0x036cbd53842c5426634e7929541ec2318f3dcf7e
 X402_MAX_PAYMENT=0.25
+X402_MAX_TOTAL_SPEND=0.31
 X402_EXPECTED_PAY_TO=0x... # optional public seller allowlist
 X402_BUYER_PRIVATE_KEY=0x... # ignored local environment only
 ```
@@ -58,28 +59,31 @@ Or run the complete sequence:
 ```bash
 npm start -- run-demo
 npm start -- run-demo --json
+npm start -- run-demo --dry-run
 ```
 
-Each paid operation enforces the configured origin, x402 version, `exact` scheme, network, native-USDC contract, atomic amount ceiling, and optional recipient allowlist before signing. Cross-origin redirects are rejected. `X402_MAX_PAYMENT` is a per-request ceiling; it is not a cumulative budget.
+Each paid operation enforces the configured origin, x402 version, `exact` scheme, network, native-USDC contract, atomic amount ceiling, and optional recipient allowlist before signing. Cross-origin redirects are rejected. `X402_MAX_PAYMENT` is the per-request ceiling; `X402_MAX_TOTAL_SPEND` is checked against the complete planned sequence before the first payment. `--dry-run` shows the plan without paying. Existing artifacts for the same scenario and service are reused by default; `--force-pay` explicitly authorizes another sequence within both limits.
+
+The three-operation Base Sepolia demonstration costs 0.31 USDC: calculate 0.01, analyze 0.05, and attest 0.25. Safe receipts for every operation are written to `artifacts/payment-receipts.json`; authorization headers and full wallet addresses are never stored.
 
 The generated report is [artifacts/autonomous-agent-profit-report.html](artifacts/autonomous-agent-profit-report.html). Open it directly or run `npm run view-report` and visit `http://127.0.0.1:4173`. It has no remote JavaScript, fonts, CSS, analytics, or chart dependencies.
 
 ## Commands
 
-| Command             | Purpose                                                |
-| ------------------- | ------------------------------------------------------ |
-| `scenario create`   | Recreate the deterministic 15-event synthetic ledger   |
-| `ledger list`       | Print local events without calculating profit          |
-| `ledger validate`   | Validate structure against live public OpenAPI         |
-| `calculate`         | Purchase and validate deterministic P&L and cash flow  |
-| `analyze`           | Purchase deterministic operational findings            |
-| `attest`            | Purchase a signed operational report                   |
-| `report`            | Render existing safe artifacts without another payment |
-| `run-demo [--json]` | Run discovery, payments, verification, and rendering   |
+| Command                                       | Purpose                                                               |
+| --------------------------------------------- | --------------------------------------------------------------------- |
+| `scenario create`                             | Recreate the deterministic 15-event synthetic ledger                  |
+| `ledger list`                                 | Print local events without calculating profit                         |
+| `ledger validate`                             | Validate structure against live public OpenAPI                        |
+| `calculate`                                   | Purchase and validate deterministic P&L and cash flow                 |
+| `analyze`                                     | Purchase deterministic operational findings                           |
+| `attest`                                      | Purchase a signed operational report                                  |
+| `report`                                      | Render existing safe artifacts without another payment                |
+| `run-demo [--json] [--dry-run] [--force-pay]` | Plan or run discovery, budgeted payments, verification, and rendering |
 
 ## Signature verification
 
-The verifier fetches `/api/v1/signing-keys`, canonicalizes the signed manifest independently, recomputes SHA-256, and verifies the Ed25519 signature with Node's cryptography implementation. It never trusts the service's `/reports/verify` answer as proof. Tests demonstrate that changing one signed value fails verification, unknown keys fail, invalid hashes fail, and schema versions 1 and 2 are recognized.
+The verifier fetches `/api/v1/signing-keys`, canonicalizes the signed manifest independently, recomputes SHA-256, and verifies the Ed25519 signature with Node's cryptography implementation. It never trusts the service's `/reports/verify` answer as proof. Tests demonstrate that changing one signed value fails verification, unknown keys fail, invalid hashes fail, and report schema versions 1, 2, and 3 are recognized.
 
 ## Mainnet safety
 
@@ -103,6 +107,6 @@ npm audit --audit-level=high
 - The client validates structure and reconciles counters but never computes replacement profit totals.
 - Evidence classifications describe provenance; synthetic and self-reported events are not independently verified.
 - The report is operational information, not audited accounting, tax reporting, or financial advice.
-- Signed attestation and analysis are skipped when their individual price exceeds `X402_MAX_PAYMENT`.
+- A requested sequence stops before its first payment if either a per-operation or cumulative limit would be exceeded.
 
 An autonomous agent can adapt this client by replacing `autonomousBusinessScenario()` with its own economic-event producer while keeping the same public-schema validation and payment policies. See [ARCHITECTURE.md](ARCHITECTURE.md), [PAYMENT_FLOW.md](PAYMENT_FLOW.md), and [SECURITY.md](SECURITY.md).

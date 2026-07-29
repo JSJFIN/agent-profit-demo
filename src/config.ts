@@ -19,6 +19,10 @@ const schema = z.object({
     .string()
     .regex(/^\d+(\.\d+)?$/)
     .default("0.25"),
+  X402_MAX_TOTAL_SPEND: z
+    .string()
+    .regex(/^\d+(\.\d+)?$/)
+    .default("0.31"),
   LEDGER_PATH: z.string().default("ledger.json"),
   REPORT_OUTPUT_PATH: z.string().default("artifacts/autonomous-agent-profit-report.html"),
   LOG_LEVEL: z.string().default("info"),
@@ -30,6 +34,7 @@ export type Config = {
   expectedAsset: string;
   expectedPayTo?: string;
   maxPayment: string;
+  maxTotalSpend: string;
   ledgerPath: string;
   reportPath: string;
 };
@@ -42,6 +47,7 @@ export function loadConfig(env = process.env): Config {
     expectedAsset: v.X402_EXPECTED_ASSET.toLowerCase(),
     ...(v.X402_EXPECTED_PAY_TO ? { expectedPayTo: v.X402_EXPECTED_PAY_TO.toLowerCase() } : {}),
     maxPayment: v.X402_MAX_PAYMENT,
+    maxTotalSpend: v.X402_MAX_TOTAL_SPEND,
     ledgerPath: v.LEDGER_PATH,
     reportPath: v.REPORT_OUTPUT_PATH,
   };

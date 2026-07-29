@@ -26,7 +26,7 @@ export function signedManifest(report: SignedReport) {
   return Object.fromEntries(fields.map((k) => [k, report[k]]));
 }
 export function verifySignedReport(report: SignedReport, keys: SigningKey[]) {
-  if (!["1", "2"].includes(report.schemaVersion))
+  if (!["1", "2", "3"].includes(report.schemaVersion))
     throw new Error(`Unsupported report schema: ${report.schemaVersion}`);
   if (report.signatureAlgorithm !== "Ed25519") throw new Error("Unsupported signature algorithm");
   const key = keys.find((k) => k.id === report.publicKeyId);

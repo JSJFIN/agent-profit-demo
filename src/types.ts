@@ -38,20 +38,38 @@ export type EconomicEvent = {
   metadata?: Record<string, string | number | boolean | null>;
 };
 export type PaymentReceipt = {
+  operation: "calculate" | "analyze" | "attest";
   endpoint: string;
-  price: string;
-  amount: string;
+  advertisedPrice: string;
+  atomicAmount: string;
   asset: string;
+  assetSymbol: string;
   network: string;
   scheme: string;
-  payTo: string;
-  payer?: string;
-  transaction?: string;
-  paymentId?: string;
-  success: boolean;
+  maskedSeller: string;
+  maskedPayer?: string;
+  transactionHash: string;
+  paymentIdentifier?: string;
+  settlementStatus: "settled";
+  timestamp: string;
   explorerUrl?: string;
 };
+export type RevenueEconomics = {
+  grossRevenue: string;
+  refunds: string;
+  netRevenue: string;
+  revenueEventCount: number;
+  refundEventCount: number;
+};
+export type ExperimentEconomics = RevenueEconomics & {
+  attributedCosts: string;
+  netContribution: string;
+  returnOnSpend: { value: string | null; status: string; unit?: string; missing?: string[] };
+  costEventCount: number;
+  status: string;
+};
 export type CalculationResult = Record<string, unknown> & {
+  schemaVersion: "2";
   calculationEngineVersion: string;
   inputEventCount: number;
   acceptedEventCount: number;
@@ -60,7 +78,14 @@ export type CalculationResult = Record<string, unknown> & {
   profitAffectingEventCount: number;
   profitExcludedEventCount: number;
   totals: Record<string, Record<string, string>>;
-  breakdowns: Record<string, Record<string, Record<string, string>>>;
+  currentCashBalances: Record<string, string>;
+  breakdowns: {
+    spendByCategory: Record<string, Record<string, string>>;
+    customerEconomics: Record<string, Record<string, RevenueEconomics>>;
+    experimentEconomics: Record<string, Record<string, ExperimentEconomics>>;
+    unattributedCosts: Record<string, string>;
+    [key: string]: unknown;
+  };
   dataCoverage: Record<string, unknown>;
   warnings: unknown[];
 };

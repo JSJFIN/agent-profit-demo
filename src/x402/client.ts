@@ -53,20 +53,25 @@ export async function paidPost(
     throw new Error("Payment settlement evidence missing");
   const payer = (settlement as any).payer as string | undefined;
   const paymentId = (challenge.extensions as any)?.paymentIdentifier?.id as string | undefined;
+  const mask = (value: string) => `${value.slice(0, 6)}…${value.slice(-4)}`;
+  const operation = path.split("/").at(-1) as PaymentReceipt["operation"];
   return {
     body: JSON.parse(text),
     receipt: {
+      operation,
       endpoint,
-      price: `${new Decimal(requirement.amount).div(1_000_000)} USDC`,
-      amount: requirement.amount,
+      advertisedPrice: `${new Decimal(requirement.amount).div(1_000_000)} USDC`,
+      atomicAmount: requirement.amount,
       asset: requirement.asset,
+      assetSymbol: "USDC",
       network: requirement.network,
       scheme: requirement.scheme,
-      payTo: requirement.payTo,
-      ...(payer ? { payer } : {}),
-      transaction: settlement.transaction,
-      ...(paymentId ? { paymentId } : {}),
-      success: true,
+      maskedSeller: mask(requirement.payTo),
+      ...(payer ? { maskedPayer: mask(payer) } : {}),
+      transactionHash: settlement.transaction,
+      ...(paymentId ? { paymentIdentifier: paymentId } : {}),
+      settlementStatus: "settled",
+      timestamp: new Date().toISOString(),
       explorerUrl: `${requirement.network === "eip155:84532" ? "https://sepolia.basescan.org" : "https://basescan.org"}/tx/${settlement.transaction}`,
     },
   };

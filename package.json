@@ -1,6 +1,6 @@
 {
   "name": "agent-profit-demo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Independent black-box x402 client and HTML profit report for autonomous agents",
   "type": "module",
   "bin": {

@@ -1,82 +1,116 @@
+import { Decimal } from "decimal.js";
 import type { CalculationResult, EconomicEvent, PaymentReceipt, SignedReport } from "../types.js";
-export const escapeHtml = (v: unknown) =>
-  String(v ?? "").replace(
+
+export const escapeHtml = (value: unknown) =>
+  String(value ?? "").replace(
     /[&<>"']/g,
-    (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!,
+    (character) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]!,
   );
-const mask = (v?: string) => (v ? `${v.slice(0, 6)}…${v.slice(-4)}` : "unavailable");
-const money = (v: unknown, c = "USDC") =>
-  `${new Intl.NumberFormat("en-US", { maximumFractionDigits: 6 }).format(Number(v ?? 0))} ${escapeHtml(c)}`;
-const rows = (obj: Record<string, unknown> | undefined, c = "USDC") =>
-  Object.entries(obj ?? {})
-    .map(
-      ([k, v]) =>
-        `<tr><td>${escapeHtml(k)}</td><td class="num">${money(typeof v === "object" ? (v as any).value : v, c)}</td></tr>`,
+const amount = (value: unknown, currency: string) =>
+  `${new Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(Number(value ?? 0))} ${escapeHtml(currency)}`;
+const percent = (value: string | null) =>
+  value === null
+    ? "unavailable"
+    : `${new Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(Number(value))}%`;
+const moneyRows = (currencies: Record<string, Record<string, string>> | undefined) =>
+  Object.entries(currencies ?? {})
+    .flatMap(([currency, values]) =>
+      Object.entries(values).map(
+        ([name, value]) =>
+          `<tr><td>${escapeHtml(name)}</td><td>${escapeHtml(currency)}</td><td class="num">${amount(value, currency)}</td></tr>`,
+      ),
     )
-    .join("") || '<tr><td colspan="2">No data</td></tr>';
+    .join("") || '<tr><td colspan="3">No data</td></tr>';
+
 export function renderHtml(input: {
   events: EconomicEvent[];
   calculation: CalculationResult;
-  analysis?: any;
-  receipt: PaymentReceipt;
-  attestationReceipt?: PaymentReceipt;
+  analysis?: Record<string, unknown>;
+  receipts: PaymentReceipt[];
   signedReport?: SignedReport;
   verification?: Record<string, unknown>;
   baseUrl: string;
 }) {
-  const { events, calculation: r, receipt } = input;
-  const currency = Object.keys(r.totals)[0] ?? "USDC";
-  const t = (r.totals as any)[currency] ?? {};
+  const { events, calculation: result, receipts } = input;
+  const currency = Object.keys(result.totals)[0] ?? "USDC";
+  const totals = result.totals[currency] ?? {};
   const excluded = new Map(
-    ((r as any).profitExcludedEvents ?? []).map((x: any) => [x.externalId, x.reason]),
+    ((result.profitExcludedEvents as Array<{ externalId: string; reason: string }>) ?? []).map(
+      (item) => [item.externalId, item.reason],
+    ),
   );
   const rejected = new Map(
-    ((r as any).rejectedEvents ?? []).map((x: any) => [x.externalId, x.reason]),
+    ((result.rejectedEvents as Array<{ externalId: string; reason: string }>) ?? []).map((item) => [
+      item.externalId,
+      item.reason,
+    ]),
   );
-  const embedded = JSON.stringify(r).replace(/</g, "\\u003c");
-  const consistent =
-    r.inputEventCount === r.acceptedEventCount + r.rejectedEventCount + r.duplicateEventCount &&
-    r.acceptedEventCount === r.profitAffectingEventCount + r.profitExcludedEventCount;
-  const eventRows = events
-    .map(
-      (e) =>
-        `<tr><td>${escapeHtml(e.occurredAt.slice(0, 10))}</td><td>${escapeHtml(e.kind)}</td><td>${escapeHtml(e.direction)}</td><td class="num">${money(e.amount, e.currency)}</td><td>${escapeHtml(e.category)}</td><td>${escapeHtml(e.agentId)}</td><td>${escapeHtml(e.ventureId)}</td><td>${escapeHtml(e.experimentId)}</td><td>${escapeHtml(e.source.verification)}</td><td><span class="pill ${rejected.has(e.externalId) ? "bad" : excluded.has(e.externalId) ? "neutral" : "good"}">${escapeHtml(rejected.get(e.externalId) ?? excluded.get(e.externalId) ?? "profit-affecting")}</span></td><td>${escapeHtml(e.source.reference)}</td></tr>`,
+  const experiments = result.breakdowns.experimentEconomics;
+  const experimentRows = Object.entries(experiments)
+    .flatMap(([unit, values]) =>
+      Object.entries(values).map(([name, economy]) => {
+        const status =
+          economy.returnOnSpend.status !== "available"
+            ? "return unavailable"
+            : new Decimal(economy.netContribution).gte(0)
+              ? "profitable"
+              : "unprofitable";
+        return `<tr><td>${escapeHtml(name)}</td><td>${escapeHtml(unit)}</td><td>${amount(economy.grossRevenue, unit)}</td><td>${amount(economy.refunds, unit)}</td><td>${amount(economy.netRevenue, unit)}</td><td>${amount(economy.attributedCosts, unit)}</td><td>${amount(economy.netContribution, unit)}</td><td title="Exact: ${escapeHtml(economy.returnOnSpend.value)}">${percent(economy.returnOnSpend.value)}</td><td>${escapeHtml(status)}</td></tr>`;
+      }),
     )
     .join("");
-  const coverage = r.dataCoverage as any;
-  const experimentSpend = (r.breakdowns as any).spendByExperiment as Record<string, string>;
-  const experimentReturns = (r.breakdowns as any).experimentReturnOnSpend as Record<
-    string,
-    { value: string | null; status: string }
-  >;
-  const experimentRows = Object.keys(experimentSpend)
-    .map((name) => {
-      const result = experimentReturns[name];
-      const status =
-        result?.status !== "available" || result.value === null
-          ? "insufficient data"
-          : Number(result.value) >= 0
-            ? "profitable"
-            : "unprofitable";
-      return `<tr><td>${escapeHtml(name)}</td><td>${money(experimentSpend[name], currency)}</td><td>not published</td><td>not published</td><td>not published</td><td>${escapeHtml(result?.value ?? "n/a")}%</td><td>${escapeHtml(status)}</td></tr>`;
+  const customerRows = Object.entries(result.breakdowns.customerEconomics)
+    .flatMap(([unit, values]) =>
+      Object.entries(values).map(
+        ([name, economy]) =>
+          `<tr><td>${escapeHtml(name)}</td><td>${escapeHtml(unit)}</td><td>${amount(economy.grossRevenue, unit)}</td><td>${amount(economy.refunds, unit)}</td><td>${amount(economy.netRevenue, unit)}</td></tr>`,
+      ),
+    )
+    .join("");
+  const receiptRows = receipts
+    .map(
+      (receipt) =>
+        `<tr><td>${escapeHtml(receipt.operation)}</td><td>${escapeHtml(receipt.advertisedPrice)}</td><td>${escapeHtml(receipt.network)}</td><td>${escapeHtml(receipt.maskedSeller)} / ${escapeHtml(receipt.maskedPayer ?? "unavailable")}</td><td><a href="${escapeHtml(receipt.explorerUrl)}">${escapeHtml(receipt.transactionHash)}</a></td><td>${escapeHtml(receipt.settlementStatus)}</td></tr>`,
+    )
+    .join("");
+  const totalSpend = receipts.reduce(
+    (sum, receipt) => sum.plus(receipt.advertisedPrice.split(" ")[0] ?? 0),
+    new Decimal(0),
+  );
+  const findings = ((input.analysis?.findings as Array<Record<string, unknown>>) ?? [])
+    .map(
+      (finding) =>
+        `<li><strong>${escapeHtml(finding.code)}</strong> — ${escapeHtml(finding.message)} <code>${escapeHtml(JSON.stringify(finding.metrics))}</code></li>`,
+    )
+    .join("");
+  const eventRows = events
+    .map((event) => {
+      const treatment =
+        rejected.get(event.externalId) ?? excluded.get(event.externalId) ?? "profit-affecting";
+      return `<tr><td>${escapeHtml(event.occurredAt.slice(0, 10))}</td><td>${escapeHtml(event.kind)}</td><td>${escapeHtml(event.direction)}</td><td>${amount(event.amount, event.currency)}</td><td>${escapeHtml(event.category)}</td><td>${escapeHtml(event.agentId)}</td><td>${escapeHtml(event.ventureId)}</td><td>${escapeHtml(event.experimentId)}</td><td>${escapeHtml(event.source.verification)}</td><td>${escapeHtml(treatment)}</td><td>${escapeHtml(event.source.reference)}</td></tr>`;
     })
     .join("");
-  const costCategories = {
-    direct_costs: t.directCosts,
-    advertising: t.advertisingCosts,
-    llm_usage: t.llmCosts,
-    compute_hosting: t.computeHostingCosts,
-    transaction_fees: t.transactionFees,
-    operating_costs_total: t.operatingCosts,
-  };
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Autonomous Agent Profit Report</title><style>:root{--bg:#07110f;--panel:#0d1d19;--line:#29443d;--text:#edf7f3;--muted:#9db5ad;--green:#4ce0ae;--red:#ff7c82;--amber:#ffd166}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px system-ui,sans-serif}.wrap{max-width:1180px;margin:auto;padding:40px 22px}header{border-bottom:1px solid var(--line);padding-bottom:24px}.warning{padding:12px;background:#3a2c0c;border:1px solid var(--amber);color:#ffe7a5}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}.card,section{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}.card strong{font-size:25px;display:block;color:var(--green)}section{margin-top:18px}table{border-collapse:collapse;width:100%}th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.num{text-align:right}.pill{padding:3px 7px;border-radius:10px}.good{background:#123c31;color:var(--green)}.bad{background:#471b20;color:var(--red)}.neutral{background:#39351b;color:var(--amber)}.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}.muted{color:var(--muted)}a{color:var(--green)}@media(max-width:760px){.two{grid-template-columns:1fr}.scroll{overflow:auto}}</style></head><body><div class="wrap"><header><p class="warning"><strong>SYNTHETIC DEMONSTRATION DATA.</strong> No revenue shown here is actual business income.</p><h1>Ailabra · Autonomous Research Brief Service</h1><p>Generated ${escapeHtml(new Date().toISOString())} · ${escapeHtml(input.baseUrl)} · ${escapeHtml(receipt.network)} · USDC · Engine ${escapeHtml(r.calculationEngineVersion)} · Report schema ${escapeHtml(input.signedReport?.schemaVersion ?? "not purchased")}</p></header>
- <h2>Executive summary</h2><div class="grid"><div class="card">Net revenue<strong>${money(t.netRevenue, currency)}</strong></div><div class="card">Total costs<strong>${money(t.totalCosts, currency)}</strong></div><div class="card">Operating profit<strong>${money(t.netOperatingProfit, currency)}</strong></div><div class="card">Profit margin<strong>${escapeHtml(t.profitMargin?.value ?? "n/a")}%</strong></div><div class="card">Net cash flow<strong>${money(t.netCashFlow, currency)}</strong></div><div class="card">Current cash balance<strong>${money("100.40", currency)}</strong></div></div>
- <section><h2>Wallet balance ≠ profit</h2><p>Owner capital and internal transfers change wallet balances without becoming revenue; withdrawals change cash without reducing operating profit.</p><table><tr><th>Owner capital</th><th>Revenue</th><th>Costs</th><th>Transfers</th><th>Withdrawals</th><th>Net cash flow</th><th>Operating profit</th></tr><tr><td>${money(t.ownerCapital, currency)}</td><td>${money(t.grossRevenue, currency)}</td><td>${money(t.totalCosts, currency)}</td><td>40 USDC internal</td><td>${money(t.ownerWithdrawals, currency)}</td><td>${money(t.netCashFlow, currency)}</td><td>${money(t.netOperatingProfit, currency)}</td></tr></table></section>
- <div class="two"><section><h2>Revenue by customer</h2><table>${rows((r.breakdowns as any).revenueByCustomer, currency)}</table><h3>Revenue by venture</h3><table>${rows((r.breakdowns as any).revenueByVenture, currency)}</table></section><section><h2>Costs by category</h2><table>${rows(costCategories, currency)}</table></section></div>
- <section><h2>Experiment results</h2><p>Revenue, refunds, and net contribution by experiment are marked unavailable because the public response does not publish those fields separately; the client does not reconstruct server calculations.</p><div class="scroll"><table><thead><tr><th>Experiment</th><th>Spend</th><th>Revenue</th><th>Refunds</th><th>Net contribution</th><th>Return on spend</th><th>Status</th></tr></thead><tbody>${experimentRows}</tbody></table></div></section>
- <section><h2>Event accounting</h2><p>Counts ${consistent ? '<span class="pill good">reconcile</span>' : '<span class="pill bad">INCONSISTENT</span>'}: input ${r.inputEventCount}, accepted ${r.acceptedEventCount}, rejected ${r.rejectedEventCount}, duplicates ${r.duplicateEventCount}, profit-affecting ${r.profitAffectingEventCount}, profit-excluded ${r.profitExcludedEventCount}.</p><div class="scroll"><table><thead><tr><th>Date</th><th>Kind</th><th>Direction</th><th>Amount</th><th>Category</th><th>Agent</th><th>Venture</th><th>Experiment</th><th>Evidence</th><th>Profit treatment</th><th>Reference</th></tr></thead><tbody>${eventRows}</tbody></table></div></section>
- <section><h2>Data coverage and trust</h2><div class="two"><div><h3>Revenue evidence %</h3><table>${rows(coverage.revenueByEvidencePercent, "%")}</table></div><div><h3>Expense evidence %</h3><table>${rows(coverage.expensesByEvidencePercent, "%")}</table></div></div><p>Missing cost categories: ${escapeHtml((coverage.missingCostCategories ?? []).join(", ") || "none")}</p><p>Warnings: ${escapeHtml((r.warnings ?? []).map((x: any) => (typeof x === "string" ? x : x.message)).join("; ") || "none")}</p></section>
- <section><h2>x402 purchase evidence</h2><table><tr><th>Endpoint</th><td>${escapeHtml(receipt.endpoint)}</td></tr><tr><th>Price</th><td>${escapeHtml(receipt.price)}</td></tr><tr><th>Network / asset</th><td>${escapeHtml(receipt.network)} / ${escapeHtml(receipt.asset)}</td></tr><tr><th>Seller / buyer</th><td>${mask(receipt.payTo)} / ${mask(receipt.payer)}</td></tr><tr><th>Transaction</th><td><a href="${escapeHtml(receipt.explorerUrl)}">${escapeHtml(receipt.transaction)}</a></td></tr><tr><th>Payment identifier</th><td>${escapeHtml(receipt.paymentId ?? "not supplied")}</td></tr><tr><th>Status</th><td>${receipt.success ? "settled" : "failed"} · ${receipt.network === "eip155:84532" ? "testnet" : "mainnet"}</td></tr></table></section>
- <section><h2>Signature verification</h2>${input.verification?.valid ? '<p class="pill good">Independently verified</p>' : '<p class="pill neutral">Signed attestation unavailable or not verified</p>'}<p>Key ID: ${escapeHtml(input.verification?.keyId ?? "n/a")} · Algorithm: ${escapeHtml(input.verification?.algorithm ?? "n/a")} · Result hash: ${escapeHtml(input.verification?.resultHash ?? "n/a")} · Verified: ${escapeHtml(input.verification?.verifiedAt ?? "n/a")}</p></section>
- <section><h2>Deterministic findings</h2><pre>${escapeHtml(JSON.stringify(input.analysis?.findings ?? {}, null, 2))}</pre><p class="muted">This is an operational profitability calculation, not an audited financial statement, tax account, financial advice, or independent verification of self-reported evidence.</p></section><script type="application/json" id="profit-result">${embedded}</script></div></body></html>`;
+  const embedded = JSON.stringify(result).replace(/</g, "\\u003c");
+  const consistent =
+    result.inputEventCount ===
+      result.acceptedEventCount + result.rejectedEventCount + result.duplicateEventCount &&
+    result.acceptedEventCount ===
+      result.profitAffectingEventCount + result.profitExcludedEventCount;
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Autonomous Agent Profit Report</title><style>:root{--bg:#07110f;--panel:#0d1d19;--line:#29443d;--text:#edf7f3;--muted:#9db5ad;--green:#4ce0ae;--red:#ff7c82;--amber:#ffd166}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px system-ui,sans-serif}.wrap{max-width:1240px;margin:auto;padding:40px 22px}.warning{padding:12px;background:#3a2c0c;border:1px solid var(--amber)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}.card,section{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}.card strong{font-size:24px;display:block;color:var(--green)}section{margin-top:18px}.scroll{overflow:auto}table{border-collapse:collapse;width:100%}th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.num{text-align:right}.good{color:var(--green)}.bad{color:var(--red)}a{color:var(--green)}code{color:var(--muted)}</style></head><body><div class="wrap"><header><p class="warning"><strong>SYNTHETIC DEMONSTRATION DATA.</strong> No revenue shown here is actual business income.</p><h1>Ailabra · Autonomous Research Brief Service</h1><p>Generated ${escapeHtml(new Date().toISOString())} · ${escapeHtml(input.baseUrl)} · ${escapeHtml(receipts[0]?.network ?? "unavailable")} · Engine ${escapeHtml(result.calculationEngineVersion)} · calculation schema ${escapeHtml(result.schemaVersion)} · signed-report schema ${escapeHtml(input.signedReport?.schemaVersion ?? "not purchased")}</p></header>
+<h2>Executive summary</h2><div class="grid"><div class="card">Net revenue<strong>${amount(totals.netRevenue, currency)}</strong></div><div class="card">Total costs<strong>${amount(totals.totalCosts, currency)}</strong></div><div class="card">Operating profit<strong>${amount(totals.netOperatingProfit, currency)}</strong></div><div class="card">Profit margin<strong>${percent((totals.profitMargin as unknown as { value: string | null })?.value ?? null)}</strong></div><div class="card">Net cash flow<strong>${amount(totals.netCashFlow, currency)}</strong></div><div class="card">Caller-reported current cash balance<strong>${amount(result.currentCashBalances[currency] ?? 0, currency)}</strong></div></div>
+<section><h2>Wallet balance ≠ profit</h2><p>Owner capital and internal transfers change wallet balances without becoming revenue; withdrawals change cash without reducing operating profit. A caller-reported balance is not inferred from net cash flow.</p></section>
+<section><h2>Experiment economics</h2><div class="scroll"><table><thead><tr><th>Experiment</th><th>Currency</th><th>Gross revenue</th><th>Refunds</th><th>Net revenue</th><th>Attributed costs</th><th>Net contribution</th><th>Return on spend</th><th>Status</th></tr></thead><tbody>${experimentRows}</tbody></table></div><h3>Unattributed shared costs</h3><table>${Object.entries(
+    result.breakdowns.unattributedCosts,
+  )
+    .map(([unit, value]) => `<tr><td>${escapeHtml(unit)}</td><td>${amount(value, unit)}</td></tr>`)
+    .join("")}</table></section>
+<section><h2>Customer economics</h2><table><thead><tr><th>Customer</th><th>Currency</th><th>Gross revenue</th><th>Refunds</th><th>Net revenue</th></tr></thead><tbody>${customerRows}</tbody></table></section>
+<section><h2>Complete costs by category</h2><table><thead><tr><th>Category</th><th>Currency</th><th>Spend</th></tr></thead><tbody>${moneyRows(result.breakdowns.spendByCategory)}</tbody></table></section>
+<section><h2>Deterministic findings</h2><ul>${findings || "<li>No findings</li>"}</ul><details><summary>Machine-readable analysis</summary><pre>${escapeHtml(JSON.stringify(input.analysis ?? {}, null, 2))}</pre></details></section>
+<section><h2>Data coverage and trust</h2><p>Coverage is reported independently per currency; nominal values from different currencies are never combined.</p><details open><summary>Evidence coverage and warnings</summary><pre>${escapeHtml(JSON.stringify(result.dataCoverage, null, 2))}</pre></details><p>Warnings: ${escapeHtml(result.warnings.join("; ") || "none")}</p></section>
+<section><h2>Event accounting</h2><p class="${consistent ? "good" : "bad"}">Counts ${consistent ? "reconcile" : "DO NOT RECONCILE"}: input ${result.inputEventCount}, accepted ${result.acceptedEventCount}, rejected ${result.rejectedEventCount}, duplicate ${result.duplicateEventCount}, profit-affecting ${result.profitAffectingEventCount}, profit-excluded ${result.profitExcludedEventCount}.</p><div class="scroll"><table><thead><tr><th>Date</th><th>Kind</th><th>Direction</th><th>Amount</th><th>Category</th><th>Agent</th><th>Venture</th><th>Experiment</th><th>Evidence</th><th>Profit treatment</th><th>Reference</th></tr></thead><tbody>${eventRows}</tbody></table></div></section>
+<section><h2>x402 purchase evidence</h2><table><thead><tr><th>Operation</th><th>Price</th><th>Network</th><th>Seller / buyer</th><th>Transaction</th><th>Status</th></tr></thead><tbody>${receiptRows}</tbody></table><p><strong>Total demonstration service spend: ${totalSpend.toFixed()} USDC</strong></p><p>This purchase total is not part of the synthetic business ledger unless recorded as a separate event.</p></section>
+<section><h2>Signature verification</h2><p class="${input.verification?.valid ? "good" : "bad"}">${input.verification?.valid ? "Independently verified" : "Unavailable or verification failed"}</p><p>Key ID: ${escapeHtml(input.verification?.keyId ?? "n/a")} · Algorithm: ${escapeHtml(input.verification?.algorithm ?? "n/a")} · Result hash: ${escapeHtml(input.verification?.resultHash ?? "n/a")} · Verified: ${escapeHtml(input.verification?.verifiedAt ?? "n/a")}</p></section>
+<p>This is operational analytics, not an audited financial statement, tax account, financial advice, or independent verification of self-reported evidence.</p><script type="application/json" id="profit-result">${embedded}</script></div></body></html>`;
 }

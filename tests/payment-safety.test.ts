@@ -6,12 +6,14 @@ import {
   type PaymentRequired,
 } from "../src/x402/challenge.js";
 import type { Config } from "../src/config.js";
+import { assertPaymentBudget, operationsToPay } from "../src/x402/budget.js";
 const config: Config = {
   baseUrl: "https://test-x402.ailabra.org",
   expectedNetwork: "eip155:84532",
   expectedAsset: "0x036cbd53842c5426634e7929541ec2318f3dcf7e",
   expectedPayTo: "0x2d6cee86466807de531a9d3010f06f53b060ab84",
   maxPayment: "0.05",
+  maxTotalSpend: "0.31",
   ledgerPath: "ledger.json",
   reportPath: "report.html",
 };
@@ -60,5 +62,44 @@ describe("payment guardrails", () => {
     } catch (e) {
       expect(String(e)).not.toContain(secret);
     }
+  });
+  it("accepts a cumulative run within budget", () => {
+    expect(
+      assertPaymentBudget(
+        [
+          { operation: "calculate", endpoint: "/calculate", price: "0.01" },
+          { operation: "analyze", endpoint: "/analyze", price: "0.05" },
+          { operation: "attest", endpoint: "/attest", price: "0.25" },
+        ],
+        "0.25",
+        "0.31",
+      ).toFixed(),
+    ).toBe("0.31");
+  });
+  it("rejects cumulative spend before payment and preserves per-request limit", () => {
+    expect(() =>
+      assertPaymentBudget(
+        [{ operation: "attest", endpoint: "/attest", price: "0.25" }],
+        "0.24",
+        "1",
+      ),
+    ).toThrow(/X402_MAX_PAYMENT/);
+    expect(() =>
+      assertPaymentBudget(
+        [
+          { operation: "calculate", endpoint: "/calculate", price: "0.01" },
+          { operation: "analyze", endpoint: "/analyze", price: "0.05" },
+        ],
+        "0.25",
+        "0.05",
+      ),
+    ).toThrow(/no payment was made/);
+  });
+  it("reuses matching completed artifacts unless repayment is forced", () => {
+    const selected = ["calculate", "analyze", "attest"];
+    const reusable = new Set(["calculate", "analyze", "attest"]);
+    expect(operationsToPay(selected, reusable, true, false)).toEqual([]);
+    expect(operationsToPay(selected, reusable, true, true)).toEqual(selected);
+    expect(operationsToPay(selected, reusable, false, false)).toEqual(selected);
   });
 });
