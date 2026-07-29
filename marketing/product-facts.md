@@ -12,8 +12,7 @@ Checked: 2026-07-29
 - npm: `@jsjfin/agent-profit`
 - Public examples: https://github.com/JSJFIN/agent-profit-demo
 - Current deployed server: 1.0.6
-- SDK source/release candidate: 0.1.1; npm remains 0.1.0 until the owner
-  completes the required npm authenticator challenge.
+- Current public SDK: 0.1.1.
 - Prices: calculate 0.01 USDC; analyze 0.05 USDC; attest 0.25 USDC;
   workspace 0.25 USDC; extension 0.10 USDC.
 - MCP tools: profit_calculate, profit_analyze, profit_attest,
