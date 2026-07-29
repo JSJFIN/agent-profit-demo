@@ -1,7 +1,7 @@
 {
-  "schemaVersion": "1",
-  "calculationEngineVersion": "1.0.0",
-  "calculatedAt": "2026-07-29T06:22:17.790Z",
+  "schemaVersion": "2",
+  "calculationEngineVersion": "2.0.0",
+  "calculatedAt": "2026-07-29T07:52:19.161Z",
   "inputEventCount": 15,
   "acceptedEventCount": 15,
   "rejectedEventCount": 0,
@@ -14,6 +14,9 @@
     "mode": "separate_totals",
     "baseCurrency": null,
     "rates": []
+  },
+  "currentCashBalances": {
+    "USDC": "100.40"
   },
   "totals": {
     "USDC": {
@@ -42,67 +45,169 @@
   },
   "breakdowns": {
     "spendByAgent": {
-      "agent_research_1": "45.6"
+      "USDC": {
+        "agent_research_1": "45.6"
+      }
     },
     "spendByVenture": {
-      "venture_research_briefs": "45.6"
+      "USDC": {
+        "venture_research_briefs": "45.6"
+      }
+    },
+    "spendByCategory": {
+      "USDC": {
+        "llm_usage": "10",
+        "hosting_compute": "4",
+        "domain": "12",
+        "advertising": "18",
+        "x402_purchase": "1.25",
+        "blockchain_transaction_fee": "0.35"
+      }
     },
     "spendByExperiment": {
-      "experiment_direct_outreach": "7.65",
-      "experiment_paid_advertising": "21.6"
+      "USDC": {
+        "experiment_direct_outreach": "7.65",
+        "experiment_paid_advertising": "21.6"
+      }
     },
     "revenueByVenture": {
-      "venture_research_briefs": "58"
+      "USDC": {
+        "venture_research_briefs": "58"
+      }
     },
     "revenueByCustomer": {
-      "customer_alpha": "24",
-      "customer_beta": "24",
-      "customer_gamma": "10"
+      "USDC": {
+        "customer_alpha": "24",
+        "customer_beta": "24",
+        "customer_gamma": "10"
+      }
     },
     "profitByVenture": {
-      "venture_research_briefs": "8.4"
-    },
-    "experimentReturnOnSpend": {
-      "experiment_direct_outreach": {
-        "value": "527.45098",
-        "unit": "percent",
-        "status": "available"
-      },
-      "experiment_paid_advertising": {
-        "value": "-53.703704",
-        "unit": "percent",
-        "status": "available"
+      "USDC": {
+        "venture_research_briefs": "8.4"
       }
+    },
+    "customerEconomics": {
+      "USDC": {
+        "customer_alpha": {
+          "grossRevenue": "24",
+          "refunds": "4",
+          "netRevenue": "20",
+          "revenueEventCount": 1,
+          "refundEventCount": 1
+        },
+        "customer_beta": {
+          "grossRevenue": "24",
+          "refunds": "0",
+          "netRevenue": "24",
+          "revenueEventCount": 1,
+          "refundEventCount": 0
+        },
+        "customer_gamma": {
+          "grossRevenue": "10",
+          "refunds": "0",
+          "netRevenue": "10",
+          "revenueEventCount": 1,
+          "refundEventCount": 0
+        }
+      }
+    },
+    "ventureEconomics": {
+      "USDC": {
+        "venture_research_briefs": {
+          "grossRevenue": "58",
+          "refunds": "4",
+          "netRevenue": "54",
+          "attributedCosts": "45.6",
+          "netContribution": "8.4",
+          "returnOnSpend": {
+            "value": "18.421053",
+            "unit": "percent",
+            "status": "available"
+          },
+          "revenueEventCount": 3,
+          "refundEventCount": 1,
+          "costEventCount": 7,
+          "status": "complete"
+        }
+      }
+    },
+    "experimentEconomics": {
+      "USDC": {
+        "experiment_direct_outreach": {
+          "grossRevenue": "48",
+          "refunds": "4",
+          "netRevenue": "44",
+          "attributedCosts": "7.65",
+          "netContribution": "36.35",
+          "returnOnSpend": {
+            "value": "475.163399",
+            "unit": "percent",
+            "status": "available"
+          },
+          "revenueEventCount": 2,
+          "refundEventCount": 1,
+          "costEventCount": 2,
+          "status": "complete"
+        },
+        "experiment_paid_advertising": {
+          "grossRevenue": "10",
+          "refunds": "0",
+          "netRevenue": "10",
+          "attributedCosts": "21.6",
+          "netContribution": "-11.6",
+          "returnOnSpend": {
+            "value": "-53.703704",
+            "unit": "percent",
+            "status": "available"
+          },
+          "revenueEventCount": 1,
+          "refundEventCount": 0,
+          "costEventCount": 2,
+          "status": "complete"
+        }
+      }
+    },
+    "unattributedCosts": {
+      "USDC": "16.35"
     }
   },
-  "burnRate": {
-    "value": null,
-    "status": "insufficient_data",
-    "missing": [
-      "minimum_30_days_of_expense_history"
-    ]
+  "burnRateByCurrency": {
+    "USDC": {
+      "value": null,
+      "status": "insufficient_data",
+      "missing": [
+        "minimum_30_days_of_expense_history"
+      ]
+    }
   },
-  "runway": {
-    "value": null,
-    "status": "insufficient_data",
-    "missing": [
-      "burn_rate"
-    ]
+  "runwayByCurrency": {
+    "USDC": {
+      "value": null,
+      "status": "insufficient_data",
+      "missing": [
+        "burn_rate"
+      ]
+    }
   },
   "dataCoverage": {
     "revenueByEvidencePercent": {
-      "self_reported": "18.518519",
-      "receipt_supplied": "0",
-      "receipt_verified": "37.037037",
-      "onchain_verified": "44.444444",
-      "system_observed": "0"
+      "USDC": {
+        "self_reported": "18.518519",
+        "receipt_supplied": "0",
+        "receipt_verified": "37.037037",
+        "onchain_verified": "44.444444",
+        "system_observed": "0"
+      }
     },
     "expensesByEvidencePercent": {
-      "self_reported": "0",
-      "receipt_supplied": "48.245614",
-      "receipt_verified": "48.245614",
-      "onchain_verified": "3.508772",
-      "system_observed": "0"
+      "USDC": {
+        "self_reported": "0",
+        "receipt_supplied": "48.245614",
+        "receipt_verified": "48.245614",
+        "onchain_verified": "3.508772",
+        "system_observed": "0"
+      }
     },
     "missingCostCategories": [],
     "unsupportedClaims": [],
@@ -134,31 +239,123 @@
     "Self-reported events are not independently verified."
   ],
   "formulas": {
-    "netRevenue": "gross_revenue - revenue_refunds",
+    "netRevenue": "gross_revenue - refunds",
+    "netContribution": "net_revenue - attributed_costs",
+    "returnOnSpend": "net_contribution / attributed_costs * 100",
     "totalCosts": "direct_costs + operating_costs",
     "netOperatingProfit": "net_revenue - total_costs",
     "profitMargin": "net_operating_profit / net_revenue * 100",
-    "netCashFlow": "cash_inflows - cash_outflows",
-    "experimentReturnOnSpend": "(experiment_revenue - experiment_spend) / experiment_spend * 100"
+    "netCashFlow": "cash_inflows - cash_outflows"
   },
-  "analysisVersion": "1.0.0",
-  "findings": {
-    "largestCostAgent": [
-      "agent_research_1",
-      "45.6"
-    ],
-    "largestRevenueVenture": [
-      "venture_research_briefs",
-      "58"
-    ],
-    "experimentsSpendingWithoutRevenue": [
-      "experiment_direct_outreach",
-      "experiment_paid_advertising"
-    ],
-    "profitableVentures": [
-      "venture_research_briefs"
-    ],
-    "unprofitableVentures": [],
-    "disclaimer": "Deterministic operational findings only; not financial or investment advice."
-  }
+  "analysisVersion": "2.0.0",
+  "analysisByCurrency": {
+    "USDC": {
+      "largestCostCategory": [
+        "advertising",
+        "18"
+      ],
+      "largestCostAgent": [
+        "agent_research_1",
+        "45.6"
+      ],
+      "largestRevenueCustomer": [
+        "customer_beta",
+        {
+          "grossRevenue": "24",
+          "refunds": "0",
+          "netRevenue": "24",
+          "revenueEventCount": 1,
+          "refundEventCount": 0
+        }
+      ],
+      "largestRevenueVenture": [
+        "venture_research_briefs",
+        {
+          "grossRevenue": "58",
+          "refunds": "4",
+          "netRevenue": "54",
+          "attributedCosts": "45.6",
+          "netContribution": "8.4",
+          "returnOnSpend": {
+            "value": "18.421053",
+            "unit": "percent",
+            "status": "available"
+          },
+          "revenueEventCount": 3,
+          "refundEventCount": 1,
+          "costEventCount": 7,
+          "status": "complete"
+        }
+      ],
+      "profitableExperiments": [
+        "experiment_direct_outreach"
+      ],
+      "unprofitableExperiments": [
+        "experiment_paid_advertising"
+      ],
+      "experimentsSpendingWithoutRevenue": [],
+      "experimentsReceivingRevenueWithoutAttributedSpend": [],
+      "experimentsWithRefunds": [
+        "experiment_direct_outreach"
+      ],
+      "unattributedCostAmount": "16.35",
+      "costConcentrationPercent": {
+        "value": "39.473684",
+        "unit": "percent",
+        "status": "available"
+      },
+      "revenueConcentrationPercent": {
+        "value": "44.444444",
+        "unit": "percent",
+        "status": "available"
+      },
+      "missingAttribution": true,
+      "dataQualityWarnings": [
+        "Self-reported events are not independently verified."
+      ],
+      "missingCostCategories": []
+    }
+  },
+  "findings": [
+    {
+      "code": "PROFITABLE_EXPERIMENT",
+      "severity": "info",
+      "message": "experiment_direct_outreach produced positive net contribution.",
+      "currency": "USDC",
+      "entityType": "experiment",
+      "entityId": "experiment_direct_outreach",
+      "metrics": {
+        "netRevenue": "44",
+        "attributedCosts": "7.65",
+        "netContribution": "36.35",
+        "returnOnSpendPercent": "475.163399"
+      }
+    },
+    {
+      "code": "UNPROFITABLE_EXPERIMENT",
+      "severity": "warning",
+      "message": "experiment_paid_advertising produced negative net contribution.",
+      "currency": "USDC",
+      "entityType": "experiment",
+      "entityId": "experiment_paid_advertising",
+      "metrics": {
+        "netRevenue": "10",
+        "attributedCosts": "21.6",
+        "netContribution": "-11.6",
+        "returnOnSpendPercent": "-53.703704"
+      }
+    },
+    {
+      "code": "UNATTRIBUTED_COSTS",
+      "severity": "warning",
+      "message": "16.35 USDC of costs have no experiment attribution.",
+      "currency": "USDC",
+      "entityType": "category",
+      "entityId": "unattributed",
+      "metrics": {
+        "amount": "16.35"
+      }
+    }
+  ],
+  "disclaimer": "Deterministic operational findings only; not financial or investment advice."
 }

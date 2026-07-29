@@ -49,7 +49,6 @@ artifacts/*
 !artifacts/report-preview.png
 !artifacts/calculation-request.json
 !artifacts/calculation-response.json
-!artifacts/payment-receipt.json
 !artifacts/payment-receipts.json
 !artifacts/signed-report.json
 !artifacts/run-manifest.json

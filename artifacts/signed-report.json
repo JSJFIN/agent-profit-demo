@@ -1,0 +1,272 @@
+{
+  "report": {
+    "schemaVersion": "3",
+    "calculationVersion": "2.0.0",
+    "reportId": "rpt_16589b0f-55b7-4ee7-95c3-c610e8e0c4e1",
+    "reportTimestamp": "2026-07-29T07:52:20.459Z",
+    "workspaceId": null,
+    "coveredPeriod": null,
+    "calculation": {
+      "schemaVersion": "2",
+      "calculationEngineVersion": "2.0.0",
+      "calculatedAt": "2026-07-29T07:52:20.457Z",
+      "inputEventCount": 15,
+      "acceptedEventCount": 15,
+      "rejectedEventCount": 0,
+      "duplicateEventCount": 0,
+      "profitAffectingEventCount": 11,
+      "profitExcludedEventCount": 4,
+      "cashFlowAffectingEventCount": 15,
+      "cashFlowExcludedEventCount": 0,
+      "currencyPolicy": {
+        "mode": "separate_totals",
+        "baseCurrency": null,
+        "rates": []
+      },
+      "currentCashBalances": {
+        "USDC": "100.40"
+      },
+      "totals": {
+        "USDC": {
+          "grossRevenue": "58",
+          "revenueRefunds": "4",
+          "netRevenue": "54",
+          "directCosts": "1.25",
+          "operatingCosts": "44.35",
+          "transactionFees": "0.35",
+          "advertisingCosts": "18",
+          "llmCosts": "10",
+          "computeHostingCosts": "4",
+          "totalCosts": "45.6",
+          "netOperatingProfit": "8.4",
+          "cashInflows": "198",
+          "cashOutflows": "97.6",
+          "netCashFlow": "100.4",
+          "ownerCapital": "100",
+          "ownerWithdrawals": "8",
+          "profitMargin": {
+            "value": "15.555556",
+            "unit": "percent",
+            "status": "available"
+          }
+        }
+      },
+      "breakdowns": {
+        "spendByAgent": {
+          "USDC": {
+            "agent_research_1": "45.6"
+          }
+        },
+        "spendByVenture": {
+          "USDC": {
+            "venture_research_briefs": "45.6"
+          }
+        },
+        "spendByCategory": {
+          "USDC": {
+            "llm_usage": "10",
+            "hosting_compute": "4",
+            "domain": "12",
+            "advertising": "18",
+            "x402_purchase": "1.25",
+            "blockchain_transaction_fee": "0.35"
+          }
+        },
+        "spendByExperiment": {
+          "USDC": {
+            "experiment_direct_outreach": "7.65",
+            "experiment_paid_advertising": "21.6"
+          }
+        },
+        "revenueByVenture": {
+          "USDC": {
+            "venture_research_briefs": "58"
+          }
+        },
+        "revenueByCustomer": {
+          "USDC": {
+            "customer_alpha": "24",
+            "customer_beta": "24",
+            "customer_gamma": "10"
+          }
+        },
+        "profitByVenture": {
+          "USDC": {
+            "venture_research_briefs": "8.4"
+          }
+        },
+        "customerEconomics": {
+          "USDC": {
+            "customer_alpha": {
+              "grossRevenue": "24",
+              "refunds": "4",
+              "netRevenue": "20",
+              "revenueEventCount": 1,
+              "refundEventCount": 1
+            },
+            "customer_beta": {
+              "grossRevenue": "24",
+              "refunds": "0",
+              "netRevenue": "24",
+              "revenueEventCount": 1,
+              "refundEventCount": 0
+            },
+            "customer_gamma": {
+              "grossRevenue": "10",
+              "refunds": "0",
+              "netRevenue": "10",
+              "revenueEventCount": 1,
+              "refundEventCount": 0
+            }
+          }
+        },
+        "ventureEconomics": {
+          "USDC": {
+            "venture_research_briefs": {
+              "grossRevenue": "58",
+              "refunds": "4",
+              "netRevenue": "54",
+              "attributedCosts": "45.6",
+              "netContribution": "8.4",
+              "returnOnSpend": {
+                "value": "18.421053",
+                "unit": "percent",
+                "status": "available"
+              },
+              "revenueEventCount": 3,
+              "refundEventCount": 1,
+              "costEventCount": 7,
+              "status": "complete"
+            }
+          }
+        },
+        "experimentEconomics": {
+          "USDC": {
+            "experiment_direct_outreach": {
+              "grossRevenue": "48",
+              "refunds": "4",
+              "netRevenue": "44",
+              "attributedCosts": "7.65",
+              "netContribution": "36.35",
+              "returnOnSpend": {
+                "value": "475.163399",
+                "unit": "percent",
+                "status": "available"
+              },
+              "revenueEventCount": 2,
+              "refundEventCount": 1,
+              "costEventCount": 2,
+              "status": "complete"
+            },
+            "experiment_paid_advertising": {
+              "grossRevenue": "10",
+              "refunds": "0",
+              "netRevenue": "10",
+              "attributedCosts": "21.6",
+              "netContribution": "-11.6",
+              "returnOnSpend": {
+                "value": "-53.703704",
+                "unit": "percent",
+                "status": "available"
+              },
+              "revenueEventCount": 1,
+              "refundEventCount": 0,
+              "costEventCount": 2,
+              "status": "complete"
+            }
+          }
+        },
+        "unattributedCosts": {
+          "USDC": "16.35"
+        }
+      },
+      "burnRateByCurrency": {
+        "USDC": {
+          "value": null,
+          "status": "insufficient_data",
+          "missing": [
+            "minimum_30_days_of_expense_history"
+          ]
+        }
+      },
+      "runwayByCurrency": {
+        "USDC": {
+          "value": null,
+          "status": "insufficient_data",
+          "missing": [
+            "burn_rate"
+          ]
+        }
+      },
+      "dataCoverage": {
+        "revenueByEvidencePercent": {
+          "USDC": {
+            "self_reported": "18.518519",
+            "receipt_supplied": "0",
+            "receipt_verified": "37.037037",
+            "onchain_verified": "44.444444",
+            "system_observed": "0"
+          }
+        },
+        "expensesByEvidencePercent": {
+          "USDC": {
+            "self_reported": "0",
+            "receipt_supplied": "48.245614",
+            "receipt_verified": "48.245614",
+            "onchain_verified": "3.508772",
+            "system_observed": "0"
+          }
+        },
+        "missingCostCategories": [],
+        "unsupportedClaims": [],
+        "unmatchedTransfers": [],
+        "duplicateExternalIds": [],
+        "conflictingEvents": [],
+        "unverifiedBlockchainReferences": []
+      },
+      "profitExcludedEvents": [
+        {
+          "externalId": "capital_001",
+          "reason": "excluded_capital"
+        },
+        {
+          "externalId": "transfer_001",
+          "reason": "excluded_transfer"
+        },
+        {
+          "externalId": "transfer_002",
+          "reason": "excluded_transfer"
+        },
+        {
+          "externalId": "withdrawal_001",
+          "reason": "excluded_withdrawal"
+        }
+      ],
+      "rejectedEvents": [],
+      "warnings": [
+        "Self-reported events are not independently verified."
+      ],
+      "formulas": {
+        "netRevenue": "gross_revenue - refunds",
+        "netContribution": "net_revenue - attributed_costs",
+        "returnOnSpend": "net_contribution / attributed_costs * 100",
+        "totalCosts": "direct_costs + operating_costs",
+        "netOperatingProfit": "net_revenue - total_costs",
+        "profitMargin": "net_operating_profit / net_revenue * 100",
+        "netCashFlow": "cash_inflows - cash_outflows"
+      }
+    },
+    "evidenceStatement": "Evidence classifications describe supplied provenance. Self-reported and receipt-supplied values are not independently verified.",
+    "publicKeyId": "ailabra-profit-report-2026-01",
+    "resultHash": "ee28345a6516789d39b46ebfbf62c0231a8b8315f462cae9522e9d361cb43e59",
+    "signature": "GOBmMk6CpkFQRH3ShoBllzqPjDrwiglxMtZeHB0JTlFPvCAAfJ0MnPTrNBqYHxEJeD9VhIKngl20lOD27ASSDg",
+    "signatureAlgorithm": "Ed25519",
+    "visibility": "private"
+  },
+  "reportUrl": "https://test-x402.ailabra.org/reports/rpt_16589b0f-55b7-4ee7-95c3-c610e8e0c4e1?access_token=rpt_access_f9e58056-bdbe-4503-bc9b-1255210dda68_05b0dcd0-eaab-47ee-8dde-0b3515485610",
+  "jsonUrl": "https://test-x402.ailabra.org/reports/rpt_16589b0f-55b7-4ee7-95c3-c610e8e0c4e1.json?access_token=rpt_access_f9e58056-bdbe-4503-bc9b-1255210dda68_05b0dcd0-eaab-47ee-8dde-0b3515485610",
+  "evidenceManifest": {
+    "resultHash": "ee28345a6516789d39b46ebfbf62c0231a8b8315f462cae9522e9d361cb43e59",
+    "eventCount": 15
+  }
+}

@@ -287,5 +287,7 @@
       }
     }
   ],
-  "currentCashBalance": "100.40"
+  "currentCashBalances": {
+    "USDC": "100.40"
+  }
 }

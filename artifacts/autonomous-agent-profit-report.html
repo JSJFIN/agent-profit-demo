@@ -1,28 +1,397 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Autonomous Agent Profit Report</title><style>:root{--bg:#07110f;--panel:#0d1d19;--line:#29443d;--text:#edf7f3;--muted:#9db5ad;--green:#4ce0ae;--red:#ff7c82;--amber:#ffd166}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px system-ui,sans-serif}.wrap{max-width:1180px;margin:auto;padding:40px 22px}header{border-bottom:1px solid var(--line);padding-bottom:24px}.warning{padding:12px;background:#3a2c0c;border:1px solid var(--amber);color:#ffe7a5}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}.card,section{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}.card strong{font-size:25px;display:block;color:var(--green)}section{margin-top:18px}table{border-collapse:collapse;width:100%}th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.num{text-align:right}.pill{padding:3px 7px;border-radius:10px}.good{background:#123c31;color:var(--green)}.bad{background:#471b20;color:var(--red)}.neutral{background:#39351b;color:var(--amber)}.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}.muted{color:var(--muted)}a{color:var(--green)}@media(max-width:760px){.two{grid-template-columns:1fr}.scroll{overflow:auto}}</style></head><body><div class="wrap"><header><p class="warning"><strong>SYNTHETIC DEMONSTRATION DATA.</strong> No revenue shown here is actual business income.</p><h1>Ailabra · Autonomous Research Brief Service</h1><p>Generated 2026-07-29T06:24:10.452Z · https://test-x402.ailabra.org · eip155:84532 · USDC · Engine 1.0.0 · Report schema 2</p></header>
- <h2>Executive summary</h2><div class="grid"><div class="card">Net revenue<strong>54 USDC</strong></div><div class="card">Total costs<strong>45.6 USDC</strong></div><div class="card">Operating profit<strong>8.4 USDC</strong></div><div class="card">Profit margin<strong>15.555556%</strong></div><div class="card">Net cash flow<strong>100.4 USDC</strong></div><div class="card">Current cash balance<strong>100.4 USDC</strong></div></div>
- <section><h2>Wallet balance ≠ profit</h2><p>Owner capital and internal transfers change wallet balances without becoming revenue; withdrawals change cash without reducing operating profit.</p><table><tr><th>Owner capital</th><th>Revenue</th><th>Costs</th><th>Transfers</th><th>Withdrawals</th><th>Net cash flow</th><th>Operating profit</th></tr><tr><td>100 USDC</td><td>58 USDC</td><td>45.6 USDC</td><td>40 USDC internal</td><td>8 USDC</td><td>100.4 USDC</td><td>8.4 USDC</td></tr></table></section>
- <div class="two"><section><h2>Revenue by customer</h2><table><tr><td>customer_alpha</td><td class="num">24 USDC</td></tr><tr><td>customer_beta</td><td class="num">24 USDC</td></tr><tr><td>customer_gamma</td><td class="num">10 USDC</td></tr></table><h3>Revenue by venture</h3><table><tr><td>venture_research_briefs</td><td class="num">58 USDC</td></tr></table></section><section><h2>Costs by category</h2><table><tr><td>direct_costs</td><td class="num">1.25 USDC</td></tr><tr><td>advertising</td><td class="num">18 USDC</td></tr><tr><td>llm_usage</td><td class="num">10 USDC</td></tr><tr><td>compute_hosting</td><td class="num">4 USDC</td></tr><tr><td>transaction_fees</td><td class="num">0.35 USDC</td></tr><tr><td>operating_costs_total</td><td class="num">44.35 USDC</td></tr></table></section></div>
- <section><h2>Experiment results</h2><p>Revenue, refunds, and net contribution by experiment are marked unavailable because the public response does not publish those fields separately; the client does not reconstruct server calculations.</p><div class="scroll"><table><thead><tr><th>Experiment</th><th>Spend</th><th>Revenue</th><th>Refunds</th><th>Net contribution</th><th>Return on spend</th><th>Status</th></tr></thead><tbody><tr><td>experiment_direct_outreach</td><td>7.65 USDC</td><td>not published</td><td>not published</td><td>not published</td><td>527.45098%</td><td>profitable</td></tr><tr><td>experiment_paid_advertising</td><td>21.6 USDC</td><td>not published</td><td>not published</td><td>not published</td><td>-53.703704%</td><td>unprofitable</td></tr></tbody></table></div></section>
- <section><h2>Event accounting</h2><p>Counts <span class="pill good">reconcile</span>: input 15, accepted 15, rejected 0, duplicates 0, profit-affecting 11, profit-excluded 4.</p><div class="scroll"><table><thead><tr><th>Date</th><th>Kind</th><th>Direction</th><th>Amount</th><th>Category</th><th>Agent</th><th>Venture</th><th>Experiment</th><th>Evidence</th><th>Profit treatment</th><th>Reference</th></tr></thead><tbody><tr><td>2026-07-01</td><td>capital</td><td>inflow</td><td class="num">100 USDC</td><td>owner_capital</td><td>agent_research_1</td><td>venture_research_briefs</td><td></td><td>self_reported</td><td><span class="pill neutral">excluded_capital</span></td><td>synthetic-capital</td></tr><tr><td>2026-07-01</td><td>transfer</td><td>outflow</td><td class="num">40 USDC</td><td>internal_wallet_transfer</td><td>agent_research_1</td><td>venture_research_briefs</td><td></td><td>system_observed</td><td><span class="pill neutral">excluded_transfer</span></td><td>synthetic-wallet-transfer</td></tr><tr><td>2026-07-01</td><td>transfer</td><td>inflow</td><td class="num">40 USDC</td><td>internal_wallet_transfer</td><td>agent_research_1</td><td>venture_research_briefs</td><td></td><td>system_observed</td><td><span class="pill neutral">excluded_transfer</span></td><td>synthetic-wallet-transfer</td></tr><tr><td>2026-07-02</td><td>expense</td><td>outflow</td><td class="num">6.4 USDC</td><td>llm_usage</td><td>agent_research_1</td><td>venture_research_briefs</td><td>experiment_direct_outreach</td><td>receipt_supplied</td><td><span class="pill good">profit-affecting</span></td><td>synthetic-llm-receipt</td></tr><tr><td>2026-07-02</td><td>expense</td><td>outflow</td><td class="num">4 USDC</td><td>hosting_compute</td><td>agent_research_1</td><td>venture_research_briefs</td><td></td><td>receipt_verified</td><td><span class="pill good">profit-affecting</span></td><td>synthetic-hosting-receipt</td></tr><tr><td>2026-07-03</td><td>expense</td><td>outflow</td><td class="num">12 USDC</td><td>domain</td><td>agent_research_1</td><td>venture_research_briefs</td><td></td><td>receipt_supplied</td><td><span class="pill good">profit-affecting</span></td><td>synthetic-domain-receipt</td></tr><tr><td>2026-07-05</td><td>expense</td><td>outflow</td><td class="num">18 USDC</td><td>advertising</td><td>agent_research_1</td><td>venture_research_briefs</td><td>experiment_paid_advertising</td><td>receipt_verified</td><td><span class="pill good">profit-affecting</span></td><td>synthetic-ad-receipt</td></tr><tr><td>2026-07-06</td><td>expense</td><td>outflow</td><td class="num">1.25 USDC</td><td>x402_purchase</td><td>agent_research_1</td><td>venture_research_briefs</td><td>experiment_direct_outreach</td><td>onchain_verified</td><td><span class="pill good">profit-affecting</span></td><td>synthetic-x402-receipt</td></tr><tr><td>2026-07-08</td><td>revenue</td><td>inflow</td><td class="num">24 USDC</td><td>customer_revenue</td><td>agent_research_1</td><td>venture_research_briefs</td><td>experiment_direct_outreach</td><td>receipt_verified</td><td><span class="pill good">profit-affecting</span></td><td>synthetic-invoice-alpha</td></tr><tr><td>2026-07-10</td><td>revenue</td><td>inflow</td><td class="num">24 USDC</td><td>customer_revenue</td><td>agent_research_1</td><td>venture_research_briefs</td><td>experiment_direct_outreach</td><td>onchain_verified</td><td><span class="pill good">profit-affecting</span></td><td>synthetic-invoice-beta</td></tr><tr><td>2026-07-12</td><td>revenue</td><td>inflow</td><td class="num">10 USDC</td><td>customer_revenue</td><td>agent_research_1</td><td>venture_research_briefs</td><td>experiment_paid_advertising</td><td>self_reported</td><td><span class="pill good">profit-affecting</span></td><td>synthetic-invoice-gamma</td></tr><tr><td>2026-07-14</td><td>refund</td><td>outflow</td><td class="num">4 USDC</td><td>customer_refund</td><td>agent_research_1</td><td>venture_research_briefs</td><td>experiment_direct_outreach</td><td>receipt_verified</td><td><span class="pill good">profit-affecting</span></td><td>synthetic-refund-alpha</td></tr><tr><td>2026-07-15</td><td>fee</td><td>outflow</td><td class="num">0.35 USDC</td><td>blockchain_transaction_fee</td><td>agent_research_1</td><td>venture_research_briefs</td><td></td><td>onchain_verified</td><td><span class="pill good">profit-affecting</span></td><td>synthetic-chain-fee</td></tr><tr><td>2026-07-16</td><td>expense</td><td>outflow</td><td class="num">3.6 USDC</td><td>llm_usage</td><td>agent_research_1</td><td>venture_research_briefs</td><td>experiment_paid_advertising</td><td>receipt_supplied</td><td><span class="pill good">profit-affecting</span></td><td>synthetic-ad-copy-llm</td></tr><tr><td>2026-07-20</td><td>withdrawal</td><td>outflow</td><td class="num">8 USDC</td><td>owner_withdrawal</td><td>agent_research_1</td><td>venture_research_briefs</td><td></td><td>system_observed</td><td><span class="pill neutral">excluded_withdrawal</span></td><td>synthetic-owner-withdrawal</td></tr></tbody></table></div></section>
- <section><h2>Data coverage and trust</h2><div class="two"><div><h3>Revenue evidence %</h3><table><tr><td>self_reported</td><td class="num">18.518519 %</td></tr><tr><td>receipt_supplied</td><td class="num">0 %</td></tr><tr><td>receipt_verified</td><td class="num">37.037037 %</td></tr><tr><td>onchain_verified</td><td class="num">44.444444 %</td></tr><tr><td>system_observed</td><td class="num">0 %</td></tr></table></div><div><h3>Expense evidence %</h3><table><tr><td>self_reported</td><td class="num">0 %</td></tr><tr><td>receipt_supplied</td><td class="num">48.245614 %</td></tr><tr><td>receipt_verified</td><td class="num">48.245614 %</td></tr><tr><td>onchain_verified</td><td class="num">3.508772 %</td></tr><tr><td>system_observed</td><td class="num">0 %</td></tr></table></div></div><p>Missing cost categories: none</p><p>Warnings: Self-reported events are not independently verified.</p></section>
- <section><h2>x402 purchase evidence</h2><table><tr><th>Endpoint</th><td>https://test-x402.ailabra.org/api/v1/x402/profit/calculate</td></tr><tr><th>Price</th><td>0.01 USDC</td></tr><tr><th>Network / asset</th><td>eip155:84532 / 0x036CbD53842c5426634e7929541eC2318f3dCF7e</td></tr><tr><th>Seller / buyer</th><td>0x2d6C…ab84 / 0xc88e…9577</td></tr><tr><th>Transaction</th><td><a href="https://sepolia.basescan.org/tx/0x42bce20b0cb24265e573f86c6c9b08fd4519a0a726f87b6c26281c06b9b06120">0x42bce20b0cb24265e573f86c6c9b08fd4519a0a726f87b6c26281c06b9b06120</a></td></tr><tr><th>Payment identifier</th><td>not supplied</td></tr><tr><th>Status</th><td>settled · testnet</td></tr></table></section>
- <section><h2>Signature verification</h2><p class="pill good">Independently verified</p><p>Key ID: ailabra-profit-report-2026-01 · Algorithm: Ed25519 · Result hash: 7b02ddb7715ae2ab236e950ec300068487e3568c528486b2a49e0d8c686c8e8c · Verified: 2026-07-29T06:24:10.426Z</p></section>
- <section><h2>Deterministic findings</h2><pre>{
-  &quot;largestCostAgent&quot;: [
-    &quot;agent_research_1&quot;,
-    &quot;45.6&quot;
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Autonomous Agent Profit Report</title><style>:root{--bg:#07110f;--panel:#0d1d19;--line:#29443d;--text:#edf7f3;--muted:#9db5ad;--green:#4ce0ae;--red:#ff7c82;--amber:#ffd166}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px system-ui,sans-serif}.wrap{max-width:1240px;margin:auto;padding:40px 22px}.warning{padding:12px;background:#3a2c0c;border:1px solid var(--amber)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}.card,section{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}.card strong{font-size:24px;display:block;color:var(--green)}section{margin-top:18px}.scroll{overflow:auto}table{border-collapse:collapse;width:100%}th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.num{text-align:right}.good{color:var(--green)}.bad{color:var(--red)}a{color:var(--green)}code{color:var(--muted)}</style></head><body><div class="wrap"><header><p class="warning"><strong>SYNTHETIC DEMONSTRATION DATA.</strong> No revenue shown here is actual business income.</p><h1>Ailabra · Autonomous Research Brief Service</h1><p>Generated 2026-07-29T07:52:21.266Z · https://test-x402.ailabra.org · eip155:84532 · Engine 2.0.0 · calculation schema 2 · signed-report schema 3</p></header>
+<h2>Executive summary</h2><div class="grid"><div class="card">Net revenue<strong>54.00 USDC</strong></div><div class="card">Total costs<strong>45.60 USDC</strong></div><div class="card">Operating profit<strong>8.40 USDC</strong></div><div class="card">Profit margin<strong>15.56%</strong></div><div class="card">Net cash flow<strong>100.40 USDC</strong></div><div class="card">Caller-reported current cash balance<strong>100.40 USDC</strong></div></div>
+<section><h2>Wallet balance ≠ profit</h2><p>Owner capital and internal transfers change wallet balances without becoming revenue; withdrawals change cash without reducing operating profit. A caller-reported balance is not inferred from net cash flow.</p></section>
+<section><h2>Experiment economics</h2><div class="scroll"><table><thead><tr><th>Experiment</th><th>Currency</th><th>Gross revenue</th><th>Refunds</th><th>Net revenue</th><th>Attributed costs</th><th>Net contribution</th><th>Return on spend</th><th>Status</th></tr></thead><tbody><tr><td>experiment_direct_outreach</td><td>USDC</td><td>48.00 USDC</td><td>4.00 USDC</td><td>44.00 USDC</td><td>7.65 USDC</td><td>36.35 USDC</td><td title="Exact: 475.163399">475.16%</td><td>profitable</td></tr><tr><td>experiment_paid_advertising</td><td>USDC</td><td>10.00 USDC</td><td>0.00 USDC</td><td>10.00 USDC</td><td>21.60 USDC</td><td>-11.60 USDC</td><td title="Exact: -53.703704">-53.70%</td><td>unprofitable</td></tr></tbody></table></div><h3>Unattributed shared costs</h3><table><tr><td>USDC</td><td>16.35 USDC</td></tr></table></section>
+<section><h2>Customer economics</h2><table><thead><tr><th>Customer</th><th>Currency</th><th>Gross revenue</th><th>Refunds</th><th>Net revenue</th></tr></thead><tbody><tr><td>customer_alpha</td><td>USDC</td><td>24.00 USDC</td><td>4.00 USDC</td><td>20.00 USDC</td></tr><tr><td>customer_beta</td><td>USDC</td><td>24.00 USDC</td><td>0.00 USDC</td><td>24.00 USDC</td></tr><tr><td>customer_gamma</td><td>USDC</td><td>10.00 USDC</td><td>0.00 USDC</td><td>10.00 USDC</td></tr></tbody></table></section>
+<section><h2>Complete costs by category</h2><table><thead><tr><th>Category</th><th>Currency</th><th>Spend</th></tr></thead><tbody><tr><td>llm_usage</td><td>USDC</td><td class="num">10.00 USDC</td></tr><tr><td>hosting_compute</td><td>USDC</td><td class="num">4.00 USDC</td></tr><tr><td>domain</td><td>USDC</td><td class="num">12.00 USDC</td></tr><tr><td>advertising</td><td>USDC</td><td class="num">18.00 USDC</td></tr><tr><td>x402_purchase</td><td>USDC</td><td class="num">1.25 USDC</td></tr><tr><td>blockchain_transaction_fee</td><td>USDC</td><td class="num">0.35 USDC</td></tr></tbody></table></section>
+<section><h2>Deterministic findings</h2><ul><li><strong>PROFITABLE_EXPERIMENT</strong> — experiment_direct_outreach produced positive net contribution. <code>{&quot;netRevenue&quot;:&quot;44&quot;,&quot;attributedCosts&quot;:&quot;7.65&quot;,&quot;netContribution&quot;:&quot;36.35&quot;,&quot;returnOnSpendPercent&quot;:&quot;475.163399&quot;}</code></li><li><strong>UNPROFITABLE_EXPERIMENT</strong> — experiment_paid_advertising produced negative net contribution. <code>{&quot;netRevenue&quot;:&quot;10&quot;,&quot;attributedCosts&quot;:&quot;21.6&quot;,&quot;netContribution&quot;:&quot;-11.6&quot;,&quot;returnOnSpendPercent&quot;:&quot;-53.703704&quot;}</code></li><li><strong>UNATTRIBUTED_COSTS</strong> — 16.35 USDC of costs have no experiment attribution. <code>{&quot;amount&quot;:&quot;16.35&quot;}</code></li></ul><details><summary>Machine-readable analysis</summary><pre>{
+  &quot;schemaVersion&quot;: &quot;2&quot;,
+  &quot;calculationEngineVersion&quot;: &quot;2.0.0&quot;,
+  &quot;calculatedAt&quot;: &quot;2026-07-29T07:52:19.161Z&quot;,
+  &quot;inputEventCount&quot;: 15,
+  &quot;acceptedEventCount&quot;: 15,
+  &quot;rejectedEventCount&quot;: 0,
+  &quot;duplicateEventCount&quot;: 0,
+  &quot;profitAffectingEventCount&quot;: 11,
+  &quot;profitExcludedEventCount&quot;: 4,
+  &quot;cashFlowAffectingEventCount&quot;: 15,
+  &quot;cashFlowExcludedEventCount&quot;: 0,
+  &quot;currencyPolicy&quot;: {
+    &quot;mode&quot;: &quot;separate_totals&quot;,
+    &quot;baseCurrency&quot;: null,
+    &quot;rates&quot;: []
+  },
+  &quot;currentCashBalances&quot;: {
+    &quot;USDC&quot;: &quot;100.40&quot;
+  },
+  &quot;totals&quot;: {
+    &quot;USDC&quot;: {
+      &quot;grossRevenue&quot;: &quot;58&quot;,
+      &quot;revenueRefunds&quot;: &quot;4&quot;,
+      &quot;netRevenue&quot;: &quot;54&quot;,
+      &quot;directCosts&quot;: &quot;1.25&quot;,
+      &quot;operatingCosts&quot;: &quot;44.35&quot;,
+      &quot;transactionFees&quot;: &quot;0.35&quot;,
+      &quot;advertisingCosts&quot;: &quot;18&quot;,
+      &quot;llmCosts&quot;: &quot;10&quot;,
+      &quot;computeHostingCosts&quot;: &quot;4&quot;,
+      &quot;totalCosts&quot;: &quot;45.6&quot;,
+      &quot;netOperatingProfit&quot;: &quot;8.4&quot;,
+      &quot;cashInflows&quot;: &quot;198&quot;,
+      &quot;cashOutflows&quot;: &quot;97.6&quot;,
+      &quot;netCashFlow&quot;: &quot;100.4&quot;,
+      &quot;ownerCapital&quot;: &quot;100&quot;,
+      &quot;ownerWithdrawals&quot;: &quot;8&quot;,
+      &quot;profitMargin&quot;: {
+        &quot;value&quot;: &quot;15.555556&quot;,
+        &quot;unit&quot;: &quot;percent&quot;,
+        &quot;status&quot;: &quot;available&quot;
+      }
+    }
+  },
+  &quot;breakdowns&quot;: {
+    &quot;spendByAgent&quot;: {
+      &quot;USDC&quot;: {
+        &quot;agent_research_1&quot;: &quot;45.6&quot;
+      }
+    },
+    &quot;spendByVenture&quot;: {
+      &quot;USDC&quot;: {
+        &quot;venture_research_briefs&quot;: &quot;45.6&quot;
+      }
+    },
+    &quot;spendByCategory&quot;: {
+      &quot;USDC&quot;: {
+        &quot;llm_usage&quot;: &quot;10&quot;,
+        &quot;hosting_compute&quot;: &quot;4&quot;,
+        &quot;domain&quot;: &quot;12&quot;,
+        &quot;advertising&quot;: &quot;18&quot;,
+        &quot;x402_purchase&quot;: &quot;1.25&quot;,
+        &quot;blockchain_transaction_fee&quot;: &quot;0.35&quot;
+      }
+    },
+    &quot;spendByExperiment&quot;: {
+      &quot;USDC&quot;: {
+        &quot;experiment_direct_outreach&quot;: &quot;7.65&quot;,
+        &quot;experiment_paid_advertising&quot;: &quot;21.6&quot;
+      }
+    },
+    &quot;revenueByVenture&quot;: {
+      &quot;USDC&quot;: {
+        &quot;venture_research_briefs&quot;: &quot;58&quot;
+      }
+    },
+    &quot;revenueByCustomer&quot;: {
+      &quot;USDC&quot;: {
+        &quot;customer_alpha&quot;: &quot;24&quot;,
+        &quot;customer_beta&quot;: &quot;24&quot;,
+        &quot;customer_gamma&quot;: &quot;10&quot;
+      }
+    },
+    &quot;profitByVenture&quot;: {
+      &quot;USDC&quot;: {
+        &quot;venture_research_briefs&quot;: &quot;8.4&quot;
+      }
+    },
+    &quot;customerEconomics&quot;: {
+      &quot;USDC&quot;: {
+        &quot;customer_alpha&quot;: {
+          &quot;grossRevenue&quot;: &quot;24&quot;,
+          &quot;refunds&quot;: &quot;4&quot;,
+          &quot;netRevenue&quot;: &quot;20&quot;,
+          &quot;revenueEventCount&quot;: 1,
+          &quot;refundEventCount&quot;: 1
+        },
+        &quot;customer_beta&quot;: {
+          &quot;grossRevenue&quot;: &quot;24&quot;,
+          &quot;refunds&quot;: &quot;0&quot;,
+          &quot;netRevenue&quot;: &quot;24&quot;,
+          &quot;revenueEventCount&quot;: 1,
+          &quot;refundEventCount&quot;: 0
+        },
+        &quot;customer_gamma&quot;: {
+          &quot;grossRevenue&quot;: &quot;10&quot;,
+          &quot;refunds&quot;: &quot;0&quot;,
+          &quot;netRevenue&quot;: &quot;10&quot;,
+          &quot;revenueEventCount&quot;: 1,
+          &quot;refundEventCount&quot;: 0
+        }
+      }
+    },
+    &quot;ventureEconomics&quot;: {
+      &quot;USDC&quot;: {
+        &quot;venture_research_briefs&quot;: {
+          &quot;grossRevenue&quot;: &quot;58&quot;,
+          &quot;refunds&quot;: &quot;4&quot;,
+          &quot;netRevenue&quot;: &quot;54&quot;,
+          &quot;attributedCosts&quot;: &quot;45.6&quot;,
+          &quot;netContribution&quot;: &quot;8.4&quot;,
+          &quot;returnOnSpend&quot;: {
+            &quot;value&quot;: &quot;18.421053&quot;,
+            &quot;unit&quot;: &quot;percent&quot;,
+            &quot;status&quot;: &quot;available&quot;
+          },
+          &quot;revenueEventCount&quot;: 3,
+          &quot;refundEventCount&quot;: 1,
+          &quot;costEventCount&quot;: 7,
+          &quot;status&quot;: &quot;complete&quot;
+        }
+      }
+    },
+    &quot;experimentEconomics&quot;: {
+      &quot;USDC&quot;: {
+        &quot;experiment_direct_outreach&quot;: {
+          &quot;grossRevenue&quot;: &quot;48&quot;,
+          &quot;refunds&quot;: &quot;4&quot;,
+          &quot;netRevenue&quot;: &quot;44&quot;,
+          &quot;attributedCosts&quot;: &quot;7.65&quot;,
+          &quot;netContribution&quot;: &quot;36.35&quot;,
+          &quot;returnOnSpend&quot;: {
+            &quot;value&quot;: &quot;475.163399&quot;,
+            &quot;unit&quot;: &quot;percent&quot;,
+            &quot;status&quot;: &quot;available&quot;
+          },
+          &quot;revenueEventCount&quot;: 2,
+          &quot;refundEventCount&quot;: 1,
+          &quot;costEventCount&quot;: 2,
+          &quot;status&quot;: &quot;complete&quot;
+        },
+        &quot;experiment_paid_advertising&quot;: {
+          &quot;grossRevenue&quot;: &quot;10&quot;,
+          &quot;refunds&quot;: &quot;0&quot;,
+          &quot;netRevenue&quot;: &quot;10&quot;,
+          &quot;attributedCosts&quot;: &quot;21.6&quot;,
+          &quot;netContribution&quot;: &quot;-11.6&quot;,
+          &quot;returnOnSpend&quot;: {
+            &quot;value&quot;: &quot;-53.703704&quot;,
+            &quot;unit&quot;: &quot;percent&quot;,
+            &quot;status&quot;: &quot;available&quot;
+          },
+          &quot;revenueEventCount&quot;: 1,
+          &quot;refundEventCount&quot;: 0,
+          &quot;costEventCount&quot;: 2,
+          &quot;status&quot;: &quot;complete&quot;
+        }
+      }
+    },
+    &quot;unattributedCosts&quot;: {
+      &quot;USDC&quot;: &quot;16.35&quot;
+    }
+  },
+  &quot;burnRateByCurrency&quot;: {
+    &quot;USDC&quot;: {
+      &quot;value&quot;: null,
+      &quot;status&quot;: &quot;insufficient_data&quot;,
+      &quot;missing&quot;: [
+        &quot;minimum_30_days_of_expense_history&quot;
+      ]
+    }
+  },
+  &quot;runwayByCurrency&quot;: {
+    &quot;USDC&quot;: {
+      &quot;value&quot;: null,
+      &quot;status&quot;: &quot;insufficient_data&quot;,
+      &quot;missing&quot;: [
+        &quot;burn_rate&quot;
+      ]
+    }
+  },
+  &quot;dataCoverage&quot;: {
+    &quot;revenueByEvidencePercent&quot;: {
+      &quot;USDC&quot;: {
+        &quot;self_reported&quot;: &quot;18.518519&quot;,
+        &quot;receipt_supplied&quot;: &quot;0&quot;,
+        &quot;receipt_verified&quot;: &quot;37.037037&quot;,
+        &quot;onchain_verified&quot;: &quot;44.444444&quot;,
+        &quot;system_observed&quot;: &quot;0&quot;
+      }
+    },
+    &quot;expensesByEvidencePercent&quot;: {
+      &quot;USDC&quot;: {
+        &quot;self_reported&quot;: &quot;0&quot;,
+        &quot;receipt_supplied&quot;: &quot;48.245614&quot;,
+        &quot;receipt_verified&quot;: &quot;48.245614&quot;,
+        &quot;onchain_verified&quot;: &quot;3.508772&quot;,
+        &quot;system_observed&quot;: &quot;0&quot;
+      }
+    },
+    &quot;missingCostCategories&quot;: [],
+    &quot;unsupportedClaims&quot;: [],
+    &quot;unmatchedTransfers&quot;: [],
+    &quot;duplicateExternalIds&quot;: [],
+    &quot;conflictingEvents&quot;: [],
+    &quot;unverifiedBlockchainReferences&quot;: []
+  },
+  &quot;profitExcludedEvents&quot;: [
+    {
+      &quot;externalId&quot;: &quot;capital_001&quot;,
+      &quot;reason&quot;: &quot;excluded_capital&quot;
+    },
+    {
+      &quot;externalId&quot;: &quot;transfer_001&quot;,
+      &quot;reason&quot;: &quot;excluded_transfer&quot;
+    },
+    {
+      &quot;externalId&quot;: &quot;transfer_002&quot;,
+      &quot;reason&quot;: &quot;excluded_transfer&quot;
+    },
+    {
+      &quot;externalId&quot;: &quot;withdrawal_001&quot;,
+      &quot;reason&quot;: &quot;excluded_withdrawal&quot;
+    }
   ],
-  &quot;largestRevenueVenture&quot;: [
-    &quot;venture_research_briefs&quot;,
-    &quot;58&quot;
+  &quot;rejectedEvents&quot;: [],
+  &quot;warnings&quot;: [
+    &quot;Self-reported events are not independently verified.&quot;
   ],
-  &quot;experimentsSpendingWithoutRevenue&quot;: [
-    &quot;experiment_direct_outreach&quot;,
-    &quot;experiment_paid_advertising&quot;
+  &quot;formulas&quot;: {
+    &quot;netRevenue&quot;: &quot;gross_revenue - refunds&quot;,
+    &quot;netContribution&quot;: &quot;net_revenue - attributed_costs&quot;,
+    &quot;returnOnSpend&quot;: &quot;net_contribution / attributed_costs * 100&quot;,
+    &quot;totalCosts&quot;: &quot;direct_costs + operating_costs&quot;,
+    &quot;netOperatingProfit&quot;: &quot;net_revenue - total_costs&quot;,
+    &quot;profitMargin&quot;: &quot;net_operating_profit / net_revenue * 100&quot;,
+    &quot;netCashFlow&quot;: &quot;cash_inflows - cash_outflows&quot;
+  },
+  &quot;analysisVersion&quot;: &quot;2.0.0&quot;,
+  &quot;analysisByCurrency&quot;: {
+    &quot;USDC&quot;: {
+      &quot;largestCostCategory&quot;: [
+        &quot;advertising&quot;,
+        &quot;18&quot;
+      ],
+      &quot;largestCostAgent&quot;: [
+        &quot;agent_research_1&quot;,
+        &quot;45.6&quot;
+      ],
+      &quot;largestRevenueCustomer&quot;: [
+        &quot;customer_beta&quot;,
+        {
+          &quot;grossRevenue&quot;: &quot;24&quot;,
+          &quot;refunds&quot;: &quot;0&quot;,
+          &quot;netRevenue&quot;: &quot;24&quot;,
+          &quot;revenueEventCount&quot;: 1,
+          &quot;refundEventCount&quot;: 0
+        }
+      ],
+      &quot;largestRevenueVenture&quot;: [
+        &quot;venture_research_briefs&quot;,
+        {
+          &quot;grossRevenue&quot;: &quot;58&quot;,
+          &quot;refunds&quot;: &quot;4&quot;,
+          &quot;netRevenue&quot;: &quot;54&quot;,
+          &quot;attributedCosts&quot;: &quot;45.6&quot;,
+          &quot;netContribution&quot;: &quot;8.4&quot;,
+          &quot;returnOnSpend&quot;: {
+            &quot;value&quot;: &quot;18.421053&quot;,
+            &quot;unit&quot;: &quot;percent&quot;,
+            &quot;status&quot;: &quot;available&quot;
+          },
+          &quot;revenueEventCount&quot;: 3,
+          &quot;refundEventCount&quot;: 1,
+          &quot;costEventCount&quot;: 7,
+          &quot;status&quot;: &quot;complete&quot;
+        }
+      ],
+      &quot;profitableExperiments&quot;: [
+        &quot;experiment_direct_outreach&quot;
+      ],
+      &quot;unprofitableExperiments&quot;: [
+        &quot;experiment_paid_advertising&quot;
+      ],
+      &quot;experimentsSpendingWithoutRevenue&quot;: [],
+      &quot;experimentsReceivingRevenueWithoutAttributedSpend&quot;: [],
+      &quot;experimentsWithRefunds&quot;: [
+        &quot;experiment_direct_outreach&quot;
+      ],
+      &quot;unattributedCostAmount&quot;: &quot;16.35&quot;,
+      &quot;costConcentrationPercent&quot;: {
+        &quot;value&quot;: &quot;39.473684&quot;,
+        &quot;unit&quot;: &quot;percent&quot;,
+        &quot;status&quot;: &quot;available&quot;
+      },
+      &quot;revenueConcentrationPercent&quot;: {
+        &quot;value&quot;: &quot;44.444444&quot;,
+        &quot;unit&quot;: &quot;percent&quot;,
+        &quot;status&quot;: &quot;available&quot;
+      },
+      &quot;missingAttribution&quot;: true,
+      &quot;dataQualityWarnings&quot;: [
+        &quot;Self-reported events are not independently verified.&quot;
+      ],
+      &quot;missingCostCategories&quot;: []
+    }
+  },
+  &quot;findings&quot;: [
+    {
+      &quot;code&quot;: &quot;PROFITABLE_EXPERIMENT&quot;,
+      &quot;severity&quot;: &quot;info&quot;,
+      &quot;message&quot;: &quot;experiment_direct_outreach produced positive net contribution.&quot;,
+      &quot;currency&quot;: &quot;USDC&quot;,
+      &quot;entityType&quot;: &quot;experiment&quot;,
+      &quot;entityId&quot;: &quot;experiment_direct_outreach&quot;,
+      &quot;metrics&quot;: {
+        &quot;netRevenue&quot;: &quot;44&quot;,
+        &quot;attributedCosts&quot;: &quot;7.65&quot;,
+        &quot;netContribution&quot;: &quot;36.35&quot;,
+        &quot;returnOnSpendPercent&quot;: &quot;475.163399&quot;
+      }
+    },
+    {
+      &quot;code&quot;: &quot;UNPROFITABLE_EXPERIMENT&quot;,
+      &quot;severity&quot;: &quot;warning&quot;,
+      &quot;message&quot;: &quot;experiment_paid_advertising produced negative net contribution.&quot;,
+      &quot;currency&quot;: &quot;USDC&quot;,
+      &quot;entityType&quot;: &quot;experiment&quot;,
+      &quot;entityId&quot;: &quot;experiment_paid_advertising&quot;,
+      &quot;metrics&quot;: {
+        &quot;netRevenue&quot;: &quot;10&quot;,
+        &quot;attributedCosts&quot;: &quot;21.6&quot;,
+        &quot;netContribution&quot;: &quot;-11.6&quot;,
+        &quot;returnOnSpendPercent&quot;: &quot;-53.703704&quot;
+      }
+    },
+    {
+      &quot;code&quot;: &quot;UNATTRIBUTED_COSTS&quot;,
+      &quot;severity&quot;: &quot;warning&quot;,
+      &quot;message&quot;: &quot;16.35 USDC of costs have no experiment attribution.&quot;,
+      &quot;currency&quot;: &quot;USDC&quot;,
+      &quot;entityType&quot;: &quot;category&quot;,
+      &quot;entityId&quot;: &quot;unattributed&quot;,
+      &quot;metrics&quot;: {
+        &quot;amount&quot;: &quot;16.35&quot;
+      }
+    }
   ],
-  &quot;profitableVentures&quot;: [
-    &quot;venture_research_briefs&quot;
-  ],
-  &quot;unprofitableVentures&quot;: [],
   &quot;disclaimer&quot;: &quot;Deterministic operational findings only; not financial or investment advice.&quot;
-}</pre><p class="muted">This is an operational profitability calculation, not an audited financial statement, tax account, financial advice, or independent verification of self-reported evidence.</p></section><script type="application/json" id="profit-result">{"schemaVersion":"1","calculationEngineVersion":"1.0.0","calculatedAt":"2026-07-29T06:21:42.839Z","inputEventCount":15,"acceptedEventCount":15,"rejectedEventCount":0,"duplicateEventCount":0,"profitAffectingEventCount":11,"profitExcludedEventCount":4,"cashFlowAffectingEventCount":15,"cashFlowExcludedEventCount":0,"currencyPolicy":{"mode":"separate_totals","baseCurrency":null,"rates":[]},"totals":{"USDC":{"grossRevenue":"58","revenueRefunds":"4","netRevenue":"54","directCosts":"1.25","operatingCosts":"44.35","transactionFees":"0.35","advertisingCosts":"18","llmCosts":"10","computeHostingCosts":"4","totalCosts":"45.6","netOperatingProfit":"8.4","cashInflows":"198","cashOutflows":"97.6","netCashFlow":"100.4","ownerCapital":"100","ownerWithdrawals":"8","profitMargin":{"value":"15.555556","unit":"percent","status":"available"}}},"breakdowns":{"spendByAgent":{"agent_research_1":"45.6"},"spendByVenture":{"venture_research_briefs":"45.6"},"spendByExperiment":{"experiment_direct_outreach":"7.65","experiment_paid_advertising":"21.6"},"revenueByVenture":{"venture_research_briefs":"58"},"revenueByCustomer":{"customer_alpha":"24","customer_beta":"24","customer_gamma":"10"},"profitByVenture":{"venture_research_briefs":"8.4"},"experimentReturnOnSpend":{"experiment_direct_outreach":{"value":"527.45098","unit":"percent","status":"available"},"experiment_paid_advertising":{"value":"-53.703704","unit":"percent","status":"available"}}},"burnRate":{"value":null,"status":"insufficient_data","missing":["minimum_30_days_of_expense_history"]},"runway":{"value":null,"status":"insufficient_data","missing":["burn_rate"]},"dataCoverage":{"revenueByEvidencePercent":{"self_reported":"18.518519","receipt_supplied":"0","receipt_verified":"37.037037","onchain_verified":"44.444444","system_observed":"0"},"expensesByEvidencePercent":{"self_reported":"0","receipt_supplied":"48.245614","receipt_verified":"48.245614","onchain_verified":"3.508772","system_observed":"0"},"missingCostCategories":[],"unsupportedClaims":[],"unmatchedTransfers":[],"duplicateExternalIds":[],"conflictingEvents":[],"unverifiedBlockchainReferences":[]},"profitExcludedEvents":[{"externalId":"capital_001","reason":"excluded_capital"},{"externalId":"transfer_001","reason":"excluded_transfer"},{"externalId":"transfer_002","reason":"excluded_transfer"},{"externalId":"withdrawal_001","reason":"excluded_withdrawal"}],"rejectedEvents":[],"warnings":["Self-reported events are not independently verified."],"formulas":{"netRevenue":"gross_revenue - revenue_refunds","totalCosts":"direct_costs + operating_costs","netOperatingProfit":"net_revenue - total_costs","profitMargin":"net_operating_profit / net_revenue * 100","netCashFlow":"cash_inflows - cash_outflows","experimentReturnOnSpend":"(experiment_revenue - experiment_spend) / experiment_spend * 100"}}</script></div></body></html>
+}</pre></details></section>
+<section><h2>Data coverage and trust</h2><p>Coverage is reported independently per currency; nominal values from different currencies are never combined.</p><details open><summary>Evidence coverage and warnings</summary><pre>{
+  &quot;revenueByEvidencePercent&quot;: {
+    &quot;USDC&quot;: {
+      &quot;self_reported&quot;: &quot;18.518519&quot;,
+      &quot;receipt_supplied&quot;: &quot;0&quot;,
+      &quot;receipt_verified&quot;: &quot;37.037037&quot;,
+      &quot;onchain_verified&quot;: &quot;44.444444&quot;,
+      &quot;system_observed&quot;: &quot;0&quot;
+    }
+  },
+  &quot;expensesByEvidencePercent&quot;: {
+    &quot;USDC&quot;: {
+      &quot;self_reported&quot;: &quot;0&quot;,
+      &quot;receipt_supplied&quot;: &quot;48.245614&quot;,
+      &quot;receipt_verified&quot;: &quot;48.245614&quot;,
+      &quot;onchain_verified&quot;: &quot;3.508772&quot;,
+      &quot;system_observed&quot;: &quot;0&quot;
+    }
+  },
+  &quot;missingCostCategories&quot;: [],
+  &quot;unsupportedClaims&quot;: [],
+  &quot;unmatchedTransfers&quot;: [],
+  &quot;duplicateExternalIds&quot;: [],
+  &quot;conflictingEvents&quot;: [],
+  &quot;unverifiedBlockchainReferences&quot;: []
+}</pre></details><p>Warnings: Self-reported events are not independently verified.</p></section>
+<section><h2>Event accounting</h2><p class="good">Counts reconcile: input 15, accepted 15, rejected 0, duplicate 0, profit-affecting 11, profit-excluded 4.</p><div class="scroll"><table><thead><tr><th>Date</th><th>Kind</th><th>Direction</th><th>Amount</th><th>Category</th><th>Agent</th><th>Venture</th><th>Experiment</th><th>Evidence</th><th>Profit treatment</th><th>Reference</th></tr></thead><tbody><tr><td>2026-07-01</td><td>capital</td><td>inflow</td><td>100.00 USDC</td><td>owner_capital</td><td>agent_research_1</td><td>venture_research_briefs</td><td></td><td>self_reported</td><td>excluded_capital</td><td>synthetic-capital</td></tr><tr><td>2026-07-01</td><td>transfer</td><td>outflow</td><td>40.00 USDC</td><td>internal_wallet_transfer</td><td>agent_research_1</td><td>venture_research_briefs</td><td></td><td>system_observed</td><td>excluded_transfer</td><td>synthetic-wallet-transfer</td></tr><tr><td>2026-07-01</td><td>transfer</td><td>inflow</td><td>40.00 USDC</td><td>internal_wallet_transfer</td><td>agent_research_1</td><td>venture_research_briefs</td><td></td><td>system_observed</td><td>excluded_transfer</td><td>synthetic-wallet-transfer</td></tr><tr><td>2026-07-02</td><td>expense</td><td>outflow</td><td>6.40 USDC</td><td>llm_usage</td><td>agent_research_1</td><td>venture_research_briefs</td><td>experiment_direct_outreach</td><td>receipt_supplied</td><td>profit-affecting</td><td>synthetic-llm-receipt</td></tr><tr><td>2026-07-02</td><td>expense</td><td>outflow</td><td>4.00 USDC</td><td>hosting_compute</td><td>agent_research_1</td><td>venture_research_briefs</td><td></td><td>receipt_verified</td><td>profit-affecting</td><td>synthetic-hosting-receipt</td></tr><tr><td>2026-07-03</td><td>expense</td><td>outflow</td><td>12.00 USDC</td><td>domain</td><td>agent_research_1</td><td>venture_research_briefs</td><td></td><td>receipt_supplied</td><td>profit-affecting</td><td>synthetic-domain-receipt</td></tr><tr><td>2026-07-05</td><td>expense</td><td>outflow</td><td>18.00 USDC</td><td>advertising</td><td>agent_research_1</td><td>venture_research_briefs</td><td>experiment_paid_advertising</td><td>receipt_verified</td><td>profit-affecting</td><td>synthetic-ad-receipt</td></tr><tr><td>2026-07-06</td><td>expense</td><td>outflow</td><td>1.25 USDC</td><td>x402_purchase</td><td>agent_research_1</td><td>venture_research_briefs</td><td>experiment_direct_outreach</td><td>onchain_verified</td><td>profit-affecting</td><td>synthetic-x402-receipt</td></tr><tr><td>2026-07-08</td><td>revenue</td><td>inflow</td><td>24.00 USDC</td><td>customer_revenue</td><td>agent_research_1</td><td>venture_research_briefs</td><td>experiment_direct_outreach</td><td>receipt_verified</td><td>profit-affecting</td><td>synthetic-invoice-alpha</td></tr><tr><td>2026-07-10</td><td>revenue</td><td>inflow</td><td>24.00 USDC</td><td>customer_revenue</td><td>agent_research_1</td><td>venture_research_briefs</td><td>experiment_direct_outreach</td><td>onchain_verified</td><td>profit-affecting</td><td>synthetic-invoice-beta</td></tr><tr><td>2026-07-12</td><td>revenue</td><td>inflow</td><td>10.00 USDC</td><td>customer_revenue</td><td>agent_research_1</td><td>venture_research_briefs</td><td>experiment_paid_advertising</td><td>self_reported</td><td>profit-affecting</td><td>synthetic-invoice-gamma</td></tr><tr><td>2026-07-14</td><td>refund</td><td>outflow</td><td>4.00 USDC</td><td>customer_refund</td><td>agent_research_1</td><td>venture_research_briefs</td><td>experiment_direct_outreach</td><td>receipt_verified</td><td>profit-affecting</td><td>synthetic-refund-alpha</td></tr><tr><td>2026-07-15</td><td>fee</td><td>outflow</td><td>0.35 USDC</td><td>blockchain_transaction_fee</td><td>agent_research_1</td><td>venture_research_briefs</td><td></td><td>onchain_verified</td><td>profit-affecting</td><td>synthetic-chain-fee</td></tr><tr><td>2026-07-16</td><td>expense</td><td>outflow</td><td>3.60 USDC</td><td>llm_usage</td><td>agent_research_1</td><td>venture_research_briefs</td><td>experiment_paid_advertising</td><td>receipt_supplied</td><td>profit-affecting</td><td>synthetic-ad-copy-llm</td></tr><tr><td>2026-07-20</td><td>withdrawal</td><td>outflow</td><td>8.00 USDC</td><td>owner_withdrawal</td><td>agent_research_1</td><td>venture_research_briefs</td><td></td><td>system_observed</td><td>excluded_withdrawal</td><td>synthetic-owner-withdrawal</td></tr></tbody></table></div></section>
+<section><h2>x402 purchase evidence</h2><table><thead><tr><th>Operation</th><th>Price</th><th>Network</th><th>Seller / buyer</th><th>Transaction</th><th>Status</th></tr></thead><tbody><tr><td>calculate</td><td>0.01 USDC</td><td>eip155:84532</td><td>0x2d6C…ab84 / 0xc88e…9577</td><td><a href="https://sepolia.basescan.org/tx/0x646da0d2d591be4b6e47b6f46c7c79e4602b4a434f1ff75f3d1c61e328c4c411">0x646da0d2d591be4b6e47b6f46c7c79e4602b4a434f1ff75f3d1c61e328c4c411</a></td><td>settled</td></tr><tr><td>analyze</td><td>0.05 USDC</td><td>eip155:84532</td><td>0x2d6C…ab84 / 0xc88e…9577</td><td><a href="https://sepolia.basescan.org/tx/0x0b668ff07e4d3ab2cf680f9a51a98c87d30afb1d4266c77200d4f6095b52cb67">0x0b668ff07e4d3ab2cf680f9a51a98c87d30afb1d4266c77200d4f6095b52cb67</a></td><td>settled</td></tr><tr><td>attest</td><td>0.25 USDC</td><td>eip155:84532</td><td>0x2d6C…ab84 / 0xc88e…9577</td><td><a href="https://sepolia.basescan.org/tx/0x869a079e1bfa4bbbdc6d8077cfea67c9396580a2e718af8c385cbe08639dc612">0x869a079e1bfa4bbbdc6d8077cfea67c9396580a2e718af8c385cbe08639dc612</a></td><td>settled</td></tr></tbody></table><p><strong>Total demonstration service spend: 0.31 USDC</strong></p><p>This purchase total is not part of the synthetic business ledger unless recorded as a separate event.</p></section>
+<section><h2>Signature verification</h2><p class="good">Independently verified</p><p>Key ID: ailabra-profit-report-2026-01 · Algorithm: Ed25519 · Result hash: ee28345a6516789d39b46ebfbf62c0231a8b8315f462cae9522e9d361cb43e59 · Verified: 2026-07-29T07:52:21.246Z</p></section>
+<p>This is operational analytics, not an audited financial statement, tax account, financial advice, or independent verification of self-reported evidence.</p><script type="application/json" id="profit-result">{"schemaVersion":"2","calculationEngineVersion":"2.0.0","calculatedAt":"2026-07-29T07:52:17.959Z","inputEventCount":15,"acceptedEventCount":15,"rejectedEventCount":0,"duplicateEventCount":0,"profitAffectingEventCount":11,"profitExcludedEventCount":4,"cashFlowAffectingEventCount":15,"cashFlowExcludedEventCount":0,"currencyPolicy":{"mode":"separate_totals","baseCurrency":null,"rates":[]},"currentCashBalances":{"USDC":"100.40"},"totals":{"USDC":{"grossRevenue":"58","revenueRefunds":"4","netRevenue":"54","directCosts":"1.25","operatingCosts":"44.35","transactionFees":"0.35","advertisingCosts":"18","llmCosts":"10","computeHostingCosts":"4","totalCosts":"45.6","netOperatingProfit":"8.4","cashInflows":"198","cashOutflows":"97.6","netCashFlow":"100.4","ownerCapital":"100","ownerWithdrawals":"8","profitMargin":{"value":"15.555556","unit":"percent","status":"available"}}},"breakdowns":{"spendByAgent":{"USDC":{"agent_research_1":"45.6"}},"spendByVenture":{"USDC":{"venture_research_briefs":"45.6"}},"spendByCategory":{"USDC":{"llm_usage":"10","hosting_compute":"4","domain":"12","advertising":"18","x402_purchase":"1.25","blockchain_transaction_fee":"0.35"}},"spendByExperiment":{"USDC":{"experiment_direct_outreach":"7.65","experiment_paid_advertising":"21.6"}},"revenueByVenture":{"USDC":{"venture_research_briefs":"58"}},"revenueByCustomer":{"USDC":{"customer_alpha":"24","customer_beta":"24","customer_gamma":"10"}},"profitByVenture":{"USDC":{"venture_research_briefs":"8.4"}},"customerEconomics":{"USDC":{"customer_alpha":{"grossRevenue":"24","refunds":"4","netRevenue":"20","revenueEventCount":1,"refundEventCount":1},"customer_beta":{"grossRevenue":"24","refunds":"0","netRevenue":"24","revenueEventCount":1,"refundEventCount":0},"customer_gamma":{"grossRevenue":"10","refunds":"0","netRevenue":"10","revenueEventCount":1,"refundEventCount":0}}},"ventureEconomics":{"USDC":{"venture_research_briefs":{"grossRevenue":"58","refunds":"4","netRevenue":"54","attributedCosts":"45.6","netContribution":"8.4","returnOnSpend":{"value":"18.421053","unit":"percent","status":"available"},"revenueEventCount":3,"refundEventCount":1,"costEventCount":7,"status":"complete"}}},"experimentEconomics":{"USDC":{"experiment_direct_outreach":{"grossRevenue":"48","refunds":"4","netRevenue":"44","attributedCosts":"7.65","netContribution":"36.35","returnOnSpend":{"value":"475.163399","unit":"percent","status":"available"},"revenueEventCount":2,"refundEventCount":1,"costEventCount":2,"status":"complete"},"experiment_paid_advertising":{"grossRevenue":"10","refunds":"0","netRevenue":"10","attributedCosts":"21.6","netContribution":"-11.6","returnOnSpend":{"value":"-53.703704","unit":"percent","status":"available"},"revenueEventCount":1,"refundEventCount":0,"costEventCount":2,"status":"complete"}}},"unattributedCosts":{"USDC":"16.35"}},"burnRateByCurrency":{"USDC":{"value":null,"status":"insufficient_data","missing":["minimum_30_days_of_expense_history"]}},"runwayByCurrency":{"USDC":{"value":null,"status":"insufficient_data","missing":["burn_rate"]}},"dataCoverage":{"revenueByEvidencePercent":{"USDC":{"self_reported":"18.518519","receipt_supplied":"0","receipt_verified":"37.037037","onchain_verified":"44.444444","system_observed":"0"}},"expensesByEvidencePercent":{"USDC":{"self_reported":"0","receipt_supplied":"48.245614","receipt_verified":"48.245614","onchain_verified":"3.508772","system_observed":"0"}},"missingCostCategories":[],"unsupportedClaims":[],"unmatchedTransfers":[],"duplicateExternalIds":[],"conflictingEvents":[],"unverifiedBlockchainReferences":[]},"profitExcludedEvents":[{"externalId":"capital_001","reason":"excluded_capital"},{"externalId":"transfer_001","reason":"excluded_transfer"},{"externalId":"transfer_002","reason":"excluded_transfer"},{"externalId":"withdrawal_001","reason":"excluded_withdrawal"}],"rejectedEvents":[],"warnings":["Self-reported events are not independently verified."],"formulas":{"netRevenue":"gross_revenue - refunds","netContribution":"net_revenue - attributed_costs","returnOnSpend":"net_contribution / attributed_costs * 100","totalCosts":"direct_costs + operating_costs","netOperatingProfit":"net_revenue - total_costs","profitMargin":"net_operating_profit / net_revenue * 100","netCashFlow":"cash_inflows - cash_outflows"}}</script></div></body></html>

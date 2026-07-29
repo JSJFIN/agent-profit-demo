@@ -1,0 +1,50 @@
+[
+  {
+    "operation": "calculate",
+    "endpoint": "https://test-x402.ailabra.org/api/v1/x402/profit/calculate",
+    "advertisedPrice": "0.01 USDC",
+    "atomicAmount": "10000",
+    "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+    "assetSymbol": "USDC",
+    "network": "eip155:84532",
+    "scheme": "exact",
+    "maskedSeller": "0x2d6C…ab84",
+    "maskedPayer": "0xc88e…9577",
+    "transactionHash": "0x646da0d2d591be4b6e47b6f46c7c79e4602b4a434f1ff75f3d1c61e328c4c411",
+    "settlementStatus": "settled",
+    "timestamp": "2026-07-29T07:52:18.705Z",
+    "explorerUrl": "https://sepolia.basescan.org/tx/0x646da0d2d591be4b6e47b6f46c7c79e4602b4a434f1ff75f3d1c61e328c4c411"
+  },
+  {
+    "operation": "analyze",
+    "endpoint": "https://test-x402.ailabra.org/api/v1/x402/profit/analyze",
+    "advertisedPrice": "0.05 USDC",
+    "atomicAmount": "50000",
+    "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+    "assetSymbol": "USDC",
+    "network": "eip155:84532",
+    "scheme": "exact",
+    "maskedSeller": "0x2d6C…ab84",
+    "maskedPayer": "0xc88e…9577",
+    "transactionHash": "0x0b668ff07e4d3ab2cf680f9a51a98c87d30afb1d4266c77200d4f6095b52cb67",
+    "settlementStatus": "settled",
+    "timestamp": "2026-07-29T07:52:19.841Z",
+    "explorerUrl": "https://sepolia.basescan.org/tx/0x0b668ff07e4d3ab2cf680f9a51a98c87d30afb1d4266c77200d4f6095b52cb67"
+  },
+  {
+    "operation": "attest",
+    "endpoint": "https://test-x402.ailabra.org/api/v1/x402/profit/attest",
+    "advertisedPrice": "0.25 USDC",
+    "atomicAmount": "250000",
+    "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+    "assetSymbol": "USDC",
+    "network": "eip155:84532",
+    "scheme": "exact",
+    "maskedSeller": "0x2d6C…ab84",
+    "maskedPayer": "0xc88e…9577",
+    "transactionHash": "0x869a079e1bfa4bbbdc6d8077cfea67c9396580a2e718af8c385cbe08639dc612",
+    "settlementStatus": "settled",
+    "timestamp": "2026-07-29T07:52:21.071Z",
+    "explorerUrl": "https://sepolia.basescan.org/tx/0x869a079e1bfa4bbbdc6d8077cfea67c9396580a2e718af8c385cbe08639dc612"
+  }
+]
