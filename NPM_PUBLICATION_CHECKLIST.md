@@ -1,6 +1,14 @@
 # npm publication checklist
 
-The provisional public package is `@jsjfin/agent-profit`. Publication is intentionally blocked by both `private: true` and `prepublishOnly` in `package.json`.
+The provisional public package is `@jsjfin/agent-profit`. Publication is blocked by
+both `private: true` and `prepublishOnly` in `package.json` until owner
+authorization.
+
+The package allowlist contains compiled client JavaScript, type declarations, the
+public example, README, license, and package metadata only. TypeScript source,
+source maps, declaration maps, native debug symbols, server implementation,
+deployment files, private reports, and payment artifacts are rejected by
+`npm run package:audit`.
 
 ## Owner prerequisites
 
@@ -29,6 +37,7 @@ npm run typecheck
 npm test
 npm run build
 npm run secret-scan
+npm run package:audit
 npm pack --dry-run
 npm pack
 git add package.json package-lock.json

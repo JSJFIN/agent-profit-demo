@@ -38,7 +38,9 @@ export type Config = {
   ledgerPath: string;
   reportPath: string;
 };
-export function loadConfig(env = process.env): Config {
+export type Environment = Record<string, string | undefined>;
+
+export function loadConfig(env: Environment = process.env): Config {
   const v = schema.parse(env);
   return {
     baseUrl: v.PROFIT_API_BASE_URL.replace(/\/$/, ""),

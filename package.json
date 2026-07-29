@@ -29,7 +29,7 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "node scripts/clean-dist.mjs && tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "lint": "eslint .",
@@ -38,6 +38,7 @@
     "start": "tsx src/cli.ts",
     "view-report": "node scripts/view-report.mjs",
     "secret-scan": "node scripts/secret-scan.mjs",
+    "package:audit": "node scripts/audit-package.mjs",
     "generate:openapi-types": "node scripts/generate-openapi-types.mjs",
     "prepublishOnly": "node scripts/deny-publish.mjs"
   },
