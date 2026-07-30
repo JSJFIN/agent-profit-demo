@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+## SDK 0.1.2 - 2026-07-30
+
+- Restored warning-free Node 20 installation by pinning Commander 14.0.3.
+- Retained the SDK 0.1.1 API, CLI behavior, payment policies, and package boundary.
+
+## SDK 0.1.1 - 2026-07-29
+
+- Added explicit mainnet, testnet, and custom profiles.
+- Normalized bare and `USDC`-suffixed public price strings.
+- Aligned SDK and CLI discovery with all eight MCP capabilities.
+- Added optional x402 purchase, sale, and LLM-usage economic-event adapters.
+- Published the Ailabra Profit Loop and Node 20, 22, and 24 CI matrix.
+
 ## SDK 0.1.0 - 2026-07-29
 
 - Published the independent `@jsjfin/agent-profit` SDK and guarded `agent-profit` CLI.
