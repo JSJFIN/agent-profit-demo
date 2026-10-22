@@ -44,7 +44,7 @@ git commit -m "release: publish public client"
 git push origin main
 ```
 
-Then manually dispatch `.github/workflows/publish.yml` from GitHub Actions. The workflow uses a GitHub-hosted Node 24 runner, npm 11.5.1 or newer, `id-token: write`, an approval-protected environment, and npm trusted publishing. No long-lived npm token is required.
+Then manually dispatch `.github/workflows/publish.yml` from GitHub Actions. The workflow uses Node 24.22.1 on a GitHub-hosted runner, npm 11.5.1 or newer, `id-token: write`, an approval-protected environment, and npm trusted publishing. No long-lived npm token is required.
 
 Afterward, verify independently:
 

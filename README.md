@@ -119,7 +119,7 @@ synthetic business → local JSON ledger → guarded x402 buyer
 
 ## Prerequisites and wallet setup
 
-- Node.js 20 or newer (CI uses Node.js 22)
+- A security-supported Node.js release: 22.23.4+, 24.22.1+, or 26.12.1+
 - A separate EVM buyer wallet funded with Base Sepolia ETH and native Base Sepolia USDC
 - Never use the seller wallet key, a recovery phrase, or a production treasury key
 

@@ -14,7 +14,9 @@ export class PublicContracts {
     const res = await fetch(`${this.baseUrl}/openapi.json`, { redirect: "error" });
     if (!res.ok) throw new Error(`OpenAPI discovery failed: ${res.status}`);
     this.document = (await res.json()) as Doc;
-    await SwaggerParser.validate(this.document as any);
+    const validationDocument = structuredClone(this.document);
+    this.removeNestedIds(validationDocument.components);
+    await SwaggerParser.validate(validationDocument as any);
     return this.document;
   }
   schemaFor(path: string, status = "200", method = "post") {
@@ -34,12 +36,7 @@ export class PublicContracts {
   }
   private validate(schema: unknown, value: unknown, label: string) {
     const components = structuredClone(this.document.components);
-    const removeNestedIds = (node: unknown): void => {
-      if (!node || typeof node !== "object") return;
-      delete (node as Record<string, unknown>)["$id"];
-      for (const child of Object.values(node as Record<string, unknown>)) removeNestedIds(child);
-    };
-    removeNestedIds(components);
+    this.removeNestedIds(components);
     const full = {
       $schema: "https://json-schema.org/draft/2020-12/schema",
       ...(schema as Record<string, unknown>),
@@ -49,5 +46,10 @@ export class PublicContracts {
     if (!validate(value))
       throw new Error(`${label} violates public OpenAPI: ${this.ajv.errorsText(validate.errors)}`);
     return true;
+  }
+  private removeNestedIds(node: unknown): void {
+    if (!node || typeof node !== "object") return;
+    delete (node as Record<string, unknown>)["$id"];
+    for (const child of Object.values(node as Record<string, unknown>)) this.removeNestedIds(child);
   }
 }

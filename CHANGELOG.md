@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## SDK 0.1.3 - 2026-10-22
+
+- Raised the runtime floor to the security-fixed Node.js 22.23.4, 24.22.1, and 26.12.1 release lines.
+- Replaced the unsupported Node.js 20 CI job with Node.js 26.12.1.
+- Pinned trusted publication to Node.js 24.22.1.
+
 ## SDK 0.1.2 - 2026-07-30
 
 - Restored warning-free Node 20 installation by pinning Commander 14.0.3.
